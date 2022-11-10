@@ -1,0 +1,1108 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Interactive plotting with HoloViews &#8212; Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data access and discovery" href="data_discovery.html" />
+    <link rel="prev" title="Handling multi-dimensional arrays with xarray" href="xarray_introduction.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/pangeo_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome 👋
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Before the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../before/setup.html">
+   Setup: how to run the tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Pangeo 101
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="xarray_introduction.html">
+   Handling multi-dimensional arrays with xarray
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Interactive plotting with holoviews
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_discovery.html">
+   Data access and discovery
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chunking_introduction.html">
+   Chunking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dask_introduction.html">
+   Parallel computing with dask
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Resources and Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/examples.html">
+   How to
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6-ocean.html">
+   Multidimensional Coordinates example using CMIP6 Pangeo ocean model data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6_example.html">
+   Manipulation of CMIP6 model data using Pangeo catalog
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MODIS-seaice.html">
+   MODIS Sea-ice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MOD_AquaCHL_ADAM.html">
+   Using ADAM-API to access MODIS Aqua CHL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/UERRA_ADAM.html">
+   Using ADAM-API to access UERRA regional reanalysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/gridded_model_data_rolling_mean.html">
+   Rolling mean with CMIP6
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/masked_and_weighted_average.html">
+   Using masks and computing weighted average
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/nird-ESGF.html">
+   Using public data on NIRD using s3 and saving results in private s3 object storage
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/projections.html">
+   Using cartopy and projections for plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-AERONET.html">
+   Reading AERONET data with pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS.html">
+   Reading MODIS data with xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS-SUB-XYD-xarray.html">
+   Read MODIS Terra/Aqua netcdf as xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_larger_files_to_forces_bucket.html">
+   Save files from bucket to bucket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_to_forces_bucket.html">
+   Save small local files to forces
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/search_and_load_with_esgf_opendap.html">
+   Search and Load CMIP6 Data via ESGF / OPeNDAP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/some-xarray-pandas-presentation_Sara.html">
+   Some tips with xarray and pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xarray2pandas.html">
+   From xarray to pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xesmf_regridding.html">
+   Regridding model data with xESMF
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beyond the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/resources.html">
+   Join the community!
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/pythia.html">
+   Project Pythia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/envds-book.html">
+   Environmental Data Science Book
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022/issues/new?title=Issue%20on%20page%20%2Fpangeo101/visualization.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/pangeo101/visualization.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data">
+     Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-local-dataset">
+   Open local dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clipping-data-according-to-a-polygon">
+   Clipping data according to a polygon
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-a-shapefile-with-the-area-of-interest-aoi">
+   Read a shapefile with the Area Of Interest (AOI)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualize-with-matplotlib">
+   Visualize with matplotlib
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualization-with-holoviews">
+   Visualization with HoloViews
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multi-plots-using-groupby">
+     Multi-plots using groupby
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-data-on-a-particular-projection">
+     Plot data on a particular projection
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-a-single-point-over-the-time-dimension">
+     Plot a single point over the time dimension
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Interactive plotting with HoloViews</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data">
+     Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-local-dataset">
+   Open local dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clipping-data-according-to-a-polygon">
+   Clipping data according to a polygon
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-a-shapefile-with-the-area-of-interest-aoi">
+   Read a shapefile with the Area Of Interest (AOI)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualize-with-matplotlib">
+   Visualize with matplotlib
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualization-with-holoviews">
+   Visualization with HoloViews
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multi-plots-using-groupby">
+     Multi-plots using groupby
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-data-on-a-particular-projection">
+     Plot data on a particular projection
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-a-single-point-over-the-time-dimension">
+     Plot a single point over the time dimension
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="interactive-plotting-with-holoviews">
+<h1>Interactive plotting with HoloViews<a class="headerlink" href="#interactive-plotting-with-holoviews" title="Permalink to this headline">#</a></h1>
+<section id="authors-contributors">
+<h2>Authors &amp; Contributors<a class="headerlink" href="#authors-contributors" title="Permalink to this headline">#</a></h2>
+<section id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Pier Lorenzo Marasco, Ispra (Italy), <a class="reference external" href="https://github.com/pl-marasco">&#64;pl-marasco</a></p></li>
+<li><p>Anne Fouilloux, Simula Research Laboratory (Norway), <a class="reference external" href="https://github.com/annefou">&#64;annefou</a></p></li>
+</ul>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Alejandro Coca-Castro, The Alan Turing Institute (United Kingdom), <a class="reference external" href="https://github.com/acocac">&#64;acocac</a></p></li>
+</ul>
+<div class="alert alert-info">
+<i class="fa-question-circle fa" style="font-size: 22px;color:#666;"></i> Overview
+    <br>
+    <br>
+    <b>Questions</b>
+    <ul>
+        <li>How to clip Xarray DataSet with a shapefile to plot an area of interest?</li>
+        <li>How to generate interactive maps with Holoviews?</li>
+        <li>How to browse multiple times with Holoviews interactive maps?</li>
+        <li>How to generate an interactive 1D plot with Holoviews?</li>
+    </ul>
+    <b>Objectives</b>
+    <ul>
+        <li>Learn about Holoviews and Xarray for creating interactive plots</li>
+        <li>Learn to create interactive maps with Holoviews</li>
+        <li>Learn to create multiple interactive plots with holoviews</li>
+        <li>Learn to create a 1D line plot with holoviews</li>
+    </ul>
+</div></section>
+</section>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Permalink to this headline">#</a></h2>
+<p>We will be using <a class="reference external" href="https://holoviews.org/">HoloViews</a>, a tool part of the <a class="reference external" href="https://holoviz.org/">HoloViz</a> ecosystem, with Xarray to visualize the near-surface temperature from CMIP6 CESM2 (monthly dataset).</p>
+<section id="data">
+<h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">#</a></h3>
+<p>We will visualize the same data that have been used in the previous episode.</p>
+<p>If the dataset is not present in the same folder as this Jupyter notebook, it will be downloaded from zenodo using <code class="docutils literal notranslate"><span class="pre">pooch</span></code>, a very handy python-based library to download and cache your data files locally (see further info <a class="reference external" href="https://www.fatiando.org/pooch/latest/index.html">here</a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pooch</span>
+
+<span class="n">tas_file</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://zenodo.org/record/7181714/files/CMIP6_NCAR_CESM2_historical_amon_gn.nc&quot;</span><span class="p">,</span>
+    <span class="n">known_hash</span><span class="o">=</span><span class="s2">&quot;md5:5f86251e5bc5ef9b86a3a86cd06a536b&quot;</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">#</a></h2>
+<p>This episode uses the following main Python packages:</p>
+<ul class="simple">
+<li><p>xarray <span id="id1">[<a class="reference internal" href="#id33" title="S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. Journal of Open Research Software, 2017. URL: https://doi.org/10.5334/jors.148, doi:10.5334/jors.148.">HH17</a>]</span> with <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">netCDF4</span></code></a> and <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">h5netcdf</span></code></a> engines</p></li>
+<li><p>pooch <span id="id2">[<a class="reference internal" href="#id34" title="Leonardo Uieda, Santiago Rubén Soler, Rémi Rampin, Hugo van Kemenade, Matthew Turk, Daniel Shapero, Anderson Banihirwe, and John Leeman. Pooch: a friend to fetch your data files. Journal of Open Source Software, 5(45):1943, 2020. URL: https://doi.org/10.21105/joss.01943, doi:10.21105/joss.01943.">USR+20</a>]</span></p></li>
+<li><p>rioxarray <span id="id3">[<a class="reference internal" href="#id36" title="Alan D. Snow, David Brochart, Martin Raspaud, Ray Bell, RichardScottOZ, Taher Chegini, Alessandro Amici, Rémi Braun, Andrew Annex, David Hoese, Fred Bunt, GBallesteros, Joe Hamman, Markus Zehner, Mauricio Cordeiro, Scott Henderson, Seth Miller, The Gitter Badger, Tom Augspurger, apiwat-chantawibul, and pmallas. Corteva/rioxarray: 0.11.1 release. April 2022. URL: https://doi.org/10.5281/zenodo.6478182, doi:10.5281/zenodo.6478182.">SBR+22</a>]</span></p></li>
+<li><p>matplotlib <span id="id4">[<a class="reference internal" href="#id37" title="J. D. Hunter. Matplotlib: a 2d graphics environment. Computing in Science &amp; Engineering, 9(3):90–95, 2007. doi:10.1109/MCSE.2007.55.">Hun07</a>]</span></p></li>
+<li><p>cartopy <span id="id5">[<a class="reference internal" href="#id38" title="Met Office. Cartopy: a cartographic python library with a matplotlib interface. Exeter, Devon, 2010 - 2015. URL: http://scitools.org.uk/cartopy.">MetOffice15</a>]</span></p></li>
+<li><p>hvplot <span id="id6">[<a class="reference internal" href="#id39" title="Philipp Rudiger, Jean-Luc Stevens, James A. Bednar, Bas Nijholt, Andrew, Chris B, Achim Randelhoff, Jon Mease, Vasco Tenner, maxalbert, Markus Kaiser, ea42gh, Jordan Samuels, stonebig, Florian LB, Andrew Tolmie, Daniel Stephan, Scott Lowe, John Bampton, henriqueribeiro, Irv Lustig, Julia Signell, Justin Bois, Leopold Talirz, Lukas Barth, Maxime Liquet, Ram Rachum, Yuval Langer, arabidopsis, and kbowen. Holoviz/holoviews: version 1.13.3. June 2020. URL: https://doi.org/10.5281/zenodo.3904606, doi:10.5281/zenodo.3904606.">RSB+20</a>]</span></p></li>
+<li><p>geopandas <span id="id7">[<a class="reference internal" href="#id40" title="Kelsey Jordahl, Joris Van den Bossche, Martin Fleischmann, Jacob Wasserman, James McBride, Jeffrey Gerard, Jeff Tratner, Matthew Perry, Adrian Garcia Badaracco, Carson Farmer, Geir Arne Hjelle, Alan D. Snow, Micah Cochran, Sean Gillies, Lucas Culbertson, Matt Bartos, Nick Eubank, maxalbert, Aleksey Bilogur, Sergio Rey, Christopher Ren, Dani Arribas-Bel, Leah Wasser, Levi John Wolf, Martin Journois, Joshua Wilson, Adam Greenhall, Chris Holdgraf, Filipe, and François Leblanc. Geopandas/geopandas: v0.8.1. July 2020. URL: https://doi.org/10.5281/zenodo.3946761, doi:10.5281/zenodo.3946761.">JdBF+20</a>]</span></p></li>
+</ul>
+<p>Please install these packages if not already available in your Python environment.</p>
+<section id="packages">
+<h3>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h3>
+<p>In this episode, Python packages are imported when we start to use them. However, for best software practices, we recommend you to install and import all the necessary libraries at the top of your Jupyter notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="open-local-dataset">
+<h2>Open local dataset<a class="headerlink" href="#open-local-dataset" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">tas_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you get an error with the previous command, check the previous episode where the input file some_hash-CMIP6_NCAR_CESM2_historical_amon_gn.nc is downloaded locally and it is in the same directory as your Jupyter Notebook.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="clipping-data-according-to-a-polygon">
+<h2>Clipping data according to a polygon<a class="headerlink" href="#clipping-data-according-to-a-polygon" title="Permalink to this headline">#</a></h2>
+<p>One of the basic concepts in GIS is to clip data using a vector geometry. Xarray is not directly capable of dealing with vectors but thanks to Rioxarray that can be easily achieved.
+Rioxarray extends Xarray with most of the features that Rasterio (GDAL) brings.</p>
+</section>
+<section id="read-a-shapefile-with-the-area-of-interest-aoi">
+<h2>Read a shapefile with the Area Of Interest (AOI)<a class="headerlink" href="#read-a-shapefile-with-the-area-of-interest-aoi" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We define the area of interest using the Global Administrative Unit Layers <a class="reference external" href="https://data.apps.fao.org/map/catalog/srv/eng/catalog.search#/metadata/9c35ba10-5649-41c8-bdfc-eb78e9e65654">GAUL G2015_2014</a> provided by FAO-UN (see <a class="reference external" href="https://data.apps.fao.org/map/catalog/srv/api/records/9c35ba10-5649-41c8-bdfc-eb78e9e65654/attachments/GAUL2015_Documentation.zip">Documentation</a>).
+<a class="reference external" href="https://geopandas.org/en/stable/"><code class="docutils literal notranslate"><span class="pre">GeoPandas</span></code></a>, a python-based library extending the capabilities of <a class="reference external" href="https://pandas.pydata.org/"><code class="docutils literal notranslate"><span class="pre">Pandas</span></code></a> to deal with geometry and spatial operations, will help to manage geodata.</p>
+<p>The official data distribution from FAO is through the WFS service (see below how to retrieve data):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GAUL</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;https://data.apps.fao.org/map/gsrv/gsrv1/gaul/wfs?&#39;</span>
+                     <span class="s1">&#39;service=WFS&amp;version=2.0.0&amp;&#39;</span>
+                     <span class="s1">&#39;Request=GetFeature&amp;&#39;</span>
+                     <span class="s1">&#39;TypeNames=gaul:g2015_2014_2&amp;&#39;</span>
+                     <span class="s1">&#39;srsName=EPSG%3A4326&amp;&#39;</span>
+                     <span class="s1">&#39;maxFeatures=2500&amp;&#39;</span>
+                     <span class="s1">&#39;outputFormat=json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Unfortunately it seems that the service is pretty slow. As an alternative to this approach the JRC MARS unit is distributing the original dataset that was in shapefile format. To accelerate the fetch we highly recommend to follow this approach.</p>
+<p>For the training course, we also created a tiny file containing information about Norway only.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">GAUL</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;Norway.geojson&quot;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">GAUL</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;zip+https://mars.jrc.ec.europa.eu/asap/files/gaul1_asap.zip&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Data are organized in a tabular structure. For each element an index, data (made of columns) and a geometry are defined.</p>
+<p>Geometries are defined through <a class="reference external" href="https://shapely.readthedocs.io/en/stable/">shapely</a> geometry objects with three different basic classes:</p>
+<ul class="simple">
+<li><p>Points and Multi-Points</p></li>
+<li><p>Lines and Multi-Lines</p></li>
+<li><p>Polygons and Multi-Polygons</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GAUL</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the cell below, we subset the polygon geometry in which the <code class="docutils literal notranslate"><span class="pre">name0</span></code> field equals to <code class="docutils literal notranslate"><span class="pre">Norway</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">AOI_name</span> <span class="o">=</span> <span class="s2">&quot;Norway&quot;</span>
+<span class="n">AOI</span> <span class="o">=</span> <span class="n">GAUL</span><span class="p">[</span><span class="n">GAUL</span><span class="o">.</span><span class="n">name0</span> <span class="o">==</span> <span class="n">AOI_name</span><span class="p">]</span>
+<span class="n">AOI_poly</span> <span class="o">=</span> <span class="n">AOI</span><span class="o">.</span><span class="n">geometry</span>
+<span class="n">AOI_poly</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In a second step we set a EPSG:4326 Geodetic coordinate reference system to the polygon geometry. To achieve this we need to rely on rioxarray that extends xarray with the rasterio capabilities. The rio accessor is activated through importing rioxarray as has been done at the top.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once this has been done we can clip the data with the polygon that has been obtained through geopandas at the beginning of the notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span> <span class="o">=</span> <span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">AOI_poly</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualize-with-matplotlib">
+<h2>Visualize with matplotlib<a class="headerlink" href="#visualize-with-matplotlib" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+
+<span class="c1"># We&#39;re using cartopy and are plotting in PlateCarree projection</span>
+<span class="c1"># (see documentation on cartopy)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">AlbersEqualArea</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">central_latitude</span><span class="o">=</span><span class="mf">40.0</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="c1"># ax.set_extent([15.5, 27.5, 36, 41], crs=ccrs.PlateCarree()) # lon1 lon2 lat1 lat2</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;10m&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">tas_AOI</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1980-06-15&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># One way to customize your title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Near surface temperature in Norway&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualization-with-holoviews">
+<h2>Visualization with HoloViews<a class="headerlink" href="#visualization-with-holoviews" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">holoviews</span> <span class="k">as</span> <span class="nn">hv</span>
+<span class="kn">import</span> <span class="nn">hvplot.xarray</span>
+<span class="kn">import</span> <span class="nn">hvplot.pandas</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plotting data through the HoloViews back-end thanks to the hvplot that acts as high-level plotting API.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">member_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">hvplot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Having a look to data distribution can reveal a lot about the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hvplot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="multi-plots-using-groupby">
+<h3>Multi-plots using groupby<a class="headerlink" href="#multi-plots-using-groupby" title="Permalink to this headline">#</a></h3>
+<p>To be able to visualize interactively all the different available times, we can use <code class="docutils literal notranslate"><span class="pre">groupby</span></code> time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">member_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">hvplot</span><span class="p">(</span><span class="n">groupby</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can add a histogram to the visualization.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">member_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">hvplot</span><span class="p">(</span>
+    <span class="n">groupby</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">700</span>
+<span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-data-on-a-particular-projection">
+<h3>Plot data on a particular projection<a class="headerlink" href="#plot-data-on-a-particular-projection" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">tas_AOI</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">member_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">hvplot</span><span class="o">.</span><span class="n">quadmesh</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;lon&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span>
+    <span class="n">rasterize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">geo</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">global_extent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Orthographic</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span>
+    <span class="n">project</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+    <span class="n">coastline</span><span class="o">=</span><span class="s2">&quot;50m&quot;</span><span class="p">,</span>
+    <span class="n">frame_width</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Near-surface Temperature over Norway (CMIP6 CESM2)&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-a-single-point-over-the-time-dimension">
+<h3>Plot a single point over the time dimension<a class="headerlink" href="#plot-a-single-point-over-the-time-dimension" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">member_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">10.75</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">hvplot</span><span class="p">(</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">260</span><span class="p">,</span> <span class="mi">293</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="alert alert-success">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Key Points</b>
+    <br>
+    <ul>
+        <li>Rioxarray for clipping over an area of interest</li>
+        <li>Interactive plot with HoloViews and Xarray</li>
+    </ul>
+</div></section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id8">
+<dl class="citation">
+<dt class="label" id="id9"><span class="brackets">Kog95</span></dt>
+<dd><p>F.N. Kogan. Application of vegetation index and brightness temperature for drought detection. <em>Advances in Space Research</em>, 15(11):91–100, 1995. Natural Hazards: Monitoring and Assessment Using Remote Sensing Technique. URL: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/027311779500079T">https://www.sciencedirect.com/science/article/pii/027311779500079T</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/0273-1177(95)00079-T">doi:https://doi.org/10.1016/0273-1177(95)00079-T</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="packages-citation">
+<h2>Packages citation<a class="headerlink" href="#packages-citation" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id28">
+<dl class="citation">
+<dt class="label" id="id33"><span class="brackets"><a class="fn-backref" href="#id1">HH17</a></span></dt>
+<dd><p>S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. <em>Journal of Open Research Software</em>, 2017. URL: <a class="reference external" href="https://doi.org/10.5334/jors.148">https://doi.org/10.5334/jors.148</a>, <a class="reference external" href="https://doi.org/10.5334/jors.148">doi:10.5334/jors.148</a>.</p>
+</dd>
+<dt class="label" id="id37"><span class="brackets"><a class="fn-backref" href="#id4">Hun07</a></span></dt>
+<dd><p>J. D. Hunter. Matplotlib: a 2d graphics environment. <em>Computing in Science &amp; Engineering</em>, 9(3):90–95, 2007. <a class="reference external" href="https://doi.org/10.1109/MCSE.2007.55">doi:10.1109/MCSE.2007.55</a>.</p>
+</dd>
+<dt class="label" id="id40"><span class="brackets"><a class="fn-backref" href="#id7">JdBF+20</a></span></dt>
+<dd><p>Kelsey Jordahl, Joris Van den Bossche, Martin Fleischmann, Jacob Wasserman, James McBride, Jeffrey Gerard, Jeff Tratner, Matthew Perry, Adrian Garcia Badaracco, Carson Farmer, Geir Arne Hjelle, Alan D. Snow, Micah Cochran, Sean Gillies, Lucas Culbertson, Matt Bartos, Nick Eubank, maxalbert, Aleksey Bilogur, Sergio Rey, Christopher Ren, Dani Arribas-Bel, Leah Wasser, Levi John Wolf, Martin Journois, Joshua Wilson, Adam Greenhall, Chris Holdgraf, Filipe, and François Leblanc. Geopandas/geopandas: v0.8.1. July 2020. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.3946761">https://doi.org/10.5281/zenodo.3946761</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.3946761">doi:10.5281/zenodo.3946761</a>.</p>
+</dd>
+<dt class="label" id="id39"><span class="brackets"><a class="fn-backref" href="#id6">RSB+20</a></span></dt>
+<dd><p>Philipp Rudiger, Jean-Luc Stevens, James A. Bednar, Bas Nijholt, Andrew, Chris B, Achim Randelhoff, Jon Mease, Vasco Tenner, maxalbert, Markus Kaiser, ea42gh, Jordan Samuels, stonebig, Florian LB, Andrew Tolmie, Daniel Stephan, Scott Lowe, John Bampton, henriqueribeiro, Irv Lustig, Julia Signell, Justin Bois, Leopold Talirz, Lukas Barth, Maxime Liquet, Ram Rachum, Yuval Langer, arabidopsis, and kbowen. Holoviz/holoviews: version 1.13.3. June 2020. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.3904606">https://doi.org/10.5281/zenodo.3904606</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.3904606">doi:10.5281/zenodo.3904606</a>.</p>
+</dd>
+<dt class="label" id="id36"><span class="brackets"><a class="fn-backref" href="#id3">SBR+22</a></span></dt>
+<dd><p>Alan D. Snow, David Brochart, Martin Raspaud, Ray Bell, RichardScottOZ, Taher Chegini, Alessandro Amici, Rémi Braun, Andrew Annex, David Hoese, Fred Bunt, GBallesteros, Joe Hamman, Markus Zehner, Mauricio Cordeiro, Scott Henderson, Seth Miller, The Gitter Badger, Tom Augspurger, apiwat-chantawibul, and pmallas. Corteva/rioxarray: 0.11.1 release. April 2022. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.6478182">https://doi.org/10.5281/zenodo.6478182</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.6478182">doi:10.5281/zenodo.6478182</a>.</p>
+</dd>
+<dt class="label" id="id34"><span class="brackets"><a class="fn-backref" href="#id2">USR+20</a></span></dt>
+<dd><p>Leonardo Uieda, Santiago Rubén Soler, Rémi Rampin, Hugo van Kemenade, Matthew Turk, Daniel Shapero, Anderson Banihirwe, and John Leeman. Pooch: a friend to fetch your data files. <em>Journal of Open Source Software</em>, 5(45):1943, 2020. URL: <a class="reference external" href="https://doi.org/10.21105/joss.01943">https://doi.org/10.21105/joss.01943</a>, <a class="reference external" href="https://doi.org/10.21105/joss.01943">doi:10.21105/joss.01943</a>.</p>
+</dd>
+<dt class="label" id="id38"><span class="brackets"><a class="fn-backref" href="#id5">MetOffice15</a></span></dt>
+<dd><p>Met Office. <em>Cartopy: a cartographic python library with a matplotlib interface</em>. Exeter, Devon, 2010 - 2015. URL: <a class="reference external" href="http://scitools.org.uk/cartopy">http://scitools.org.uk/cartopy</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./pangeo101"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="xarray_introduction.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Handling multi-dimensional arrays with xarray</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="data_discovery.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data access and discovery</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Pangeo<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

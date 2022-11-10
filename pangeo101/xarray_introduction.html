@@ -1,0 +1,1380 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Handling multi-dimensional arrays with xarray &#8212; Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Interactive plotting with HoloViews" href="visualization.html" />
+    <link rel="prev" title="Setup: how to run the tutorial" href="../before/setup.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/pangeo_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome 👋
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Before the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../before/setup.html">
+   Setup: how to run the tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Pangeo 101
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Handling multi-dimensional arrays with xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="visualization.html">
+   Interactive plotting with holoviews
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_discovery.html">
+   Data access and discovery
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chunking_introduction.html">
+   Chunking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dask_introduction.html">
+   Parallel computing with dask
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Resources and Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/examples.html">
+   How to
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6-ocean.html">
+   Multidimensional Coordinates example using CMIP6 Pangeo ocean model data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6_example.html">
+   Manipulation of CMIP6 model data using Pangeo catalog
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MODIS-seaice.html">
+   MODIS Sea-ice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MOD_AquaCHL_ADAM.html">
+   Using ADAM-API to access MODIS Aqua CHL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/UERRA_ADAM.html">
+   Using ADAM-API to access UERRA regional reanalysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/gridded_model_data_rolling_mean.html">
+   Rolling mean with CMIP6
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/masked_and_weighted_average.html">
+   Using masks and computing weighted average
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/nird-ESGF.html">
+   Using public data on NIRD using s3 and saving results in private s3 object storage
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/projections.html">
+   Using cartopy and projections for plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-AERONET.html">
+   Reading AERONET data with pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS.html">
+   Reading MODIS data with xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS-SUB-XYD-xarray.html">
+   Read MODIS Terra/Aqua netcdf as xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_larger_files_to_forces_bucket.html">
+   Save files from bucket to bucket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_to_forces_bucket.html">
+   Save small local files to forces
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/search_and_load_with_esgf_opendap.html">
+   Search and Load CMIP6 Data via ESGF / OPeNDAP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/some-xarray-pandas-presentation_Sara.html">
+   Some tips with xarray and pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xarray2pandas.html">
+   From xarray to pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xesmf_regridding.html">
+   Regridding model data with xESMF
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beyond the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/resources.html">
+   Join the community!
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/pythia.html">
+   Project Pythia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/envds-book.html">
+   Environmental Data Science Book
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022/issues/new?title=Issue%20on%20page%20%2Fpangeo101/xarray_introduction.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/pangeo101/xarray_introduction.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data">
+     Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fetch-data">
+     Fetch Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-and-read-metadata-through-xarray">
+   Open and read metadata through Xarray
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-xarray">
+   What is xarray?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-is-xarray-structured">
+     How is xarray structured?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accessing-coordinates-and-data-variables">
+   Accessing Coordinates and Data Variables
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xarray-and-memory-usage">
+     Xarray and Memory usage
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#renaming-coordinates-and-data-variables">
+   Renaming Coordinates and Data Variables
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#selection-methods">
+   Selection methods
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting">
+   Plotting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-maths">
+   Basic maths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistics">
+   Statistics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#aggregation">
+   Aggregation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mask">
+   Mask
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-xarray-dataset">
+   Save xarray Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#advanced-saving-methods">
+   Advanced Saving methods
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-and-compression">
+     Encoding and Compression
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Handling multi-dimensional arrays with xarray</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data">
+     Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fetch-data">
+     Fetch Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-and-read-metadata-through-xarray">
+   Open and read metadata through Xarray
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-xarray">
+   What is xarray?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-is-xarray-structured">
+     How is xarray structured?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accessing-coordinates-and-data-variables">
+   Accessing Coordinates and Data Variables
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#xarray-and-memory-usage">
+     Xarray and Memory usage
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#renaming-coordinates-and-data-variables">
+   Renaming Coordinates and Data Variables
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#selection-methods">
+   Selection methods
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting">
+   Plotting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-maths">
+   Basic maths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistics">
+   Statistics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#aggregation">
+   Aggregation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mask">
+   Mask
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-xarray-dataset">
+   Save xarray Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#advanced-saving-methods">
+   Advanced Saving methods
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-and-compression">
+     Encoding and Compression
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="handling-multi-dimensional-arrays-with-xarray">
+<h1>Handling multi-dimensional arrays with xarray<a class="headerlink" href="#handling-multi-dimensional-arrays-with-xarray" title="Permalink to this headline">#</a></h1>
+<section id="authors-contributors">
+<h2>Authors &amp; Contributors<a class="headerlink" href="#authors-contributors" title="Permalink to this headline">#</a></h2>
+<section id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Pier Lorenzo Marasco, Ispra (Italy), <a class="reference external" href="https://github.com/pl-marasco">&#64;pl-marasco</a></p></li>
+<li><p>Anne Fouilloux, Simula Research Laboratory (Norway), <a class="reference external" href="https://github.com/annefou">&#64;annefou</a></p></li>
+</ul>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Alejandro Coca-Castro, The Alan Turing Institute (United Kingdom), <a class="reference external" href="https://github.com/acocac">&#64;acocac</a></p></li>
+<li><p>Guillaume Eynard-Bontemps, CNES (France), <a class="reference external" href="https://github.com/guillaumeeb">&#64;guillaumeeb</a></p></li>
+</ul>
+<div class="alert alert-info">
+    <i class="fa-question-circle fa" style="font-size: 22px;color:#666;"></i> <b>Overview</b>
+    <br>
+    <br>
+    <b>Questions</b>
+    <ul>
+        <li>What is Xarray?</li>
+        <li>How to open a local file?</li>
+        <li>How to print metadata information?</li>
+        <li>How to make a selection?</li>
+        <li>How to visualize with matplotlib?</li>
+        <li>How to perform basic computations, statistics and aggregations?</li>
+        <li>How to mask data?</li>
+    </ul>
+    <b>Objectives</b>
+    <ul>
+        <li>Learn about Xarray Python ecosystem</li>
+        <li>Learn file handling with xarray</li>
+        <li>Learn to get metadata information</li>
+        <li>Learn to select and mask data</li>
+        <li>Learn to make basic computations, aggregations and statistics</li>
+        <li>Learnn to visualize data</li>
+    </ul>
+</div></section>
+</section>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Permalink to this headline">#</a></h2>
+<p>We will be using the <a class="reference external" href="https://pangeo.io/">Pangeo</a> open-source software stack for visualizing the near-surface temperature and computing time averaged values (such as seasonal mean and other statistics).</p>
+<section id="data">
+<h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">#</a></h3>
+<p>In this episode, we will use <a class="reference external" href="https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6">CMIP6</a> data.</p>
+<p>This dataset can be discovered through the <a class="reference external" href="https://pangeo-data.github.io/pangeo-cmip6-cloud/">CMIP6 online catalog</a> or from <a class="reference external" href="https://esgf.llnl.gov/">ESGF</a>.</p>
+<p>The same dataset can also be downloaded from <a class="reference external" href="https://zenodo.org/">Zenodo</a>: <a class="reference external" href="https://zenodo.org/record/7181714/files/CMIP6_NCAR_CESM2_historical_amon_gn.nc">Near-surface Temperature from CMIP6 NCAR CESM2 historical monthly dataset for CLIVAR CMIP6 Bootcamp</a>.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">#</a></h2>
+<p>This episode uses the following main Python packages:</p>
+<ul class="simple">
+<li><p>xarray <span id="id1">[<a class="reference internal" href="#id29" title="S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. Journal of Open Research Software, 2017. URL: https://doi.org/10.5334/jors.148, doi:10.5334/jors.148.">HH17</a>]</span> with <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">netCDF4</span></code></a> and <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">h5netcdf</span></code></a> engines</p></li>
+<li><p>pooch <span id="id2">[<a class="reference internal" href="#id30" title="Leonardo Uieda, Santiago Rubén Soler, Rémi Rampin, Hugo van Kemenade, Matthew Turk, Daniel Shapero, Anderson Banihirwe, and John Leeman. Pooch: a friend to fetch your data files. Journal of Open Source Software, 5(45):1943, 2020. URL: https://doi.org/10.21105/joss.01943, doi:10.21105/joss.01943.">USR+20</a>]</span></p></li>
+<li><p>numpy <span id="id3">[<a class="reference internal" href="#id31" title="Charles R. Harris, K. Jarrod Millman, Stéfan J. van der Walt, Ralf Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, Julian Taylor, Sebastian Berg, Nathaniel J. Smith, Robert Kern, Matti Picus, Stephan Hoyer, Marten H. van Kerkwijk, Matthew Brett, Allan Haldane, Jaime Fernández del Río, Mark Wiebe, Pearu Peterson, Pierre Gérard-Marchant, Kevin Sheppard, Tyler Reddy, Warren Weckesser, Hameer Abbasi, Christoph Gohlke, and Travis E. Oliphant. Array programming with NumPy. Nature, 585(7825):357–362, September 2020. URL: https://doi.org/10.1038/s41586-020-2649-2, doi:10.1038/s41586-020-2649-2.">HMvdW+20</a>]</span></p></li>
+</ul>
+<p>Please install these packages if they are not already available in your Python environment (see <a class="reference external" href="https://pangeo-data.github.io/foss4g-2022/before/setup.html">Setup page</a>).</p>
+<section id="packages">
+<h3>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h3>
+<p>In this episode, Python packages are imported when we start to use them. However, for best software practices, we recommend that you install and import all the necessary libraries at the top of your Jupyter notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fetch-data">
+<h3>Fetch Data<a class="headerlink" href="#fetch-data" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>For now we will fetch a netCDF file containing the near-surface temperature from one single CMIP6 model CESM2.</p></li>
+<li><p>The file is available in a Zenodo repository. We will download it using using <code class="docutils literal notranslate"><span class="pre">pooch</span></code>, a very handy Python-based library to download and cache your data files locally (see further info <a class="reference external" href="https://www.fatiando.org/pooch/latest/index.html">here</a>)</p></li>
+<li><p>In the <a class="reference external" href="https://pangeo-data.github.io/clivar-2022/pangeo101/data_discovery.html">Data access and discovery</a> episode, we will learn about different ways to access data, including access to remote data.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pooch</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_file</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://zenodo.org/record/7181714/files/CMIP6_NCAR_CESM2_historical_amon_gn.nc&quot;</span><span class="p">,</span>
+    <span class="n">known_hash</span><span class="o">=</span><span class="s2">&quot;md5:5f86251e5bc5ef9b86a3a86cd06a536b&quot;</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="open-and-read-metadata-through-xarray">
+<h2>Open and read metadata through Xarray<a class="headerlink" href="#open-and-read-metadata-through-xarray" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">tas_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As the dataset is in the NetCDF format, Xarray automatically selects the correct engine (this happens in the background because engine=’netcdf’ has been automatically specified). Other common options are “h5netcdf” or “zarr”.
+GeoTiff data can also be read, but to access it requires rioxarray, which will be quickly covered later.
+Supposing that you have a dataset in an unrecognised format, you can always create your own reader as a subclass of the backend entry point and pass it through the engine parameter.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you get an error with the previous command, first check the location of the input file some_hash-CMIP6_NCAR_CESM2_historical_amon_gn.nc: it should have been downloaded in the same directory as your Jupyter Notebook.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-is-xarray">
+<h2>What is xarray?<a class="headerlink" href="#what-is-xarray" title="Permalink to this headline">#</a></h2>
+<p>Xarray introduces labels in the form of dimensions, coordinates and attributes on top of raw NumPy-like multi-dimensional arrays, which allows for a more intuitive, more concise, and less error-prone developer experience.</p>
+<section id="how-is-xarray-structured">
+<h3>How is xarray structured?<a class="headerlink" href="#how-is-xarray-structured" title="Permalink to this headline">#</a></h3>
+<p>Xarray has two core data structures, which build upon and extend the core strengths of NumPy and Pandas libraries. Both data structures are fundamentally N-dimensional:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray">DataArray</a> is the implementation of a labeled, N-dimensional array. It is an N-D generalization of a Pandas.Series. The name DataArray itself is borrowed from <a class="reference external" href="http://fperez.org/py4science/datarray/">Fernando Perez’s datarray project</a>, which prototyped a similar data structure.</p></li>
+<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a> is a multi-dimensional, in-memory array database. It is a dict-like container of DataArray objects aligned along any number of shared dimensions, and serves a similar purpose in xarray as the pandas.DataFrame.</p></li>
+</ul>
+</section>
+</section>
+<section id="accessing-coordinates-and-data-variables">
+<h2>Accessing Coordinates and Data Variables<a class="headerlink" href="#accessing-coordinates-and-data-variables" title="Permalink to this headline">#</a></h2>
+<p>DataArray, within Datasets, can be accessed through:</p>
+<ul class="simple">
+<li><p>the dot notation like Dataset.NameofVariable</p></li>
+<li><p>or using square brackets, like Dataset[‘NameofVariable’] (NameofVariable needs to be a string so use quotes or double quotes)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">tas_ds.time</span></code> is a one-dimensional <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> with dates of type <code class="docutils literal notranslate"><span class="pre">cftime.DatetimeNoLeap</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">tas_ds.tas</span></code> is a 4-dimensional <code class="docutils literal notranslate"><span class="pre">xarray.DataArray</span></code> with tas values of type <code class="docutils literal notranslate"><span class="pre">float32</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Same can be achieved for attributes and a DataArray.attrs will return a dictionary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="xarray-and-memory-usage">
+<h3>Xarray and Memory usage<a class="headerlink" href="#xarray-and-memory-usage" title="Permalink to this headline">#</a></h3>
+<p>Once a Data Array|Set is opened, xarray loads into memory only the coordinates and all the metadata needed to describe it.
+The underlying data, the component written into the datastore, are loaded into memory as a NumPy array, only once directly accessed; once in there, it will be kept to avoid re-readings.
+This brings the fact that it is good practice to have a look to the size of the data before accessing it. A classical mistake is to try loading arrays bigger than the memory with the obvious result of killing a notebook Kernel or Python process.
+If the dataset does not fit in the available memory, then the only option will be to load it through the chunking; later on, in the tutorial ‘chunking_introduction’, we will introduce this concept.</p>
+<p>As the size of the data is not too big here, we can continue without any problem. But let’s first have a look to the actual size and then how it impacts the memory once loaded into it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">nbytes</span> <span class="o">/</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> MB&quot;</span>
+<span class="p">)</span>  <span class="c1"># all the data are automatically loaded into memory as NumpyArray once they are accessed.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="renaming-coordinates-and-data-variables">
+<h2>Renaming Coordinates and Data Variables<a class="headerlink" href="#renaming-coordinates-and-data-variables" title="Permalink to this headline">#</a></h2>
+<p>It may be useful to rename variables or coordinates to more common ones. It is usually not necessary for CMIP6 data because coordinate and variable names are fully standardized. CMIP6 data follows <a class="reference external" href="https://cfconventions.org/">CF-conventions</a>.</p>
+<p>We will however show you how you can rename coordinates and/or variables and revert back our change.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span> <span class="o">=</span> <span class="n">tas_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="s2">&quot;latitude&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s revert back our change and rename latitude and longitude to the most common names e.g. ‘lat’ and ‘lon’.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span> <span class="o">=</span> <span class="n">tas_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="s2">&quot;lon&quot;</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="s2">&quot;lat&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="selection-methods">
+<h2>Selection methods<a class="headerlink" href="#selection-methods" title="Permalink to this headline">#</a></h2>
+<p>As underneath DataArrays are Numpy Array objects (that implement the standard Python x[obj] (x: array, obj: int,slice) syntax). Their data can be accessed through the same approach of numpy indexing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>or slicing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span> <span class="mi">100</span><span class="p">:</span><span class="mi">110</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As it is not easy to remember the order of dimensions, Xarray really helps by making it possible to select the position using names:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.isel</span></code> -&gt; selection based on positional index</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.sel</span></code>  -&gt; selection based on coordinate values</p></li>
+</ul>
+<p>We first check the number of elements in each coordinate of the <code class="docutils literal notranslate"><span class="pre">tas</span></code> Data Variable using the built-in method sizes. Same result can be achieved querying each coordinate using the Python built-in function <code class="docutils literal notranslate"><span class="pre">len</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">sizes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
+    <span class="n">member_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span>  <span class="c1"># same as tas_ds.tas[0,0,100,100]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The more common way to select a point is through the labeled coordinate using the <code class="docutils literal notranslate"><span class="pre">.sel</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;2010-01-15&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Time is easy to be used as there is a 1 to 1 correspondence with values in the index, float values are not that easy to be used and a small discrepancy can make a big difference in terms of results.</p>
+<p>Coordinates are always affected by precision issues; the best option to quickly get a point over the coordinates is to set the sampling method (method=’’) that will search for the closest point according to the specified one.</p>
+<p>Options for the method are:</p>
+<ul class="simple">
+<li><p>pad / <strong>f</strong>fill: propagate last valid index value forward</p></li>
+<li><p>backfill / <strong>b</strong>fill: propagate next valid index value backward</p></li>
+<li><p>nearest: use nearest valid index value</p></li>
+</ul>
+<p>Another important parameter that can be set is the tolerance that specifies the distance between the requested and the target (so that abs(index[indexer] - target) &lt;= tolerance) from <a class="reference external" href="https://xarray.pydata.org/en/v0.17.0/generated/xarray.DataArray.sel.html#:~:text=xarray.DataArray.sel%20%C2%B6%20DataArray.sel%28indexers%3DNone%2C%20method%3DNone%2C%20tolerance%3DNone%2C%20drop%3DFalse%2C%20%2A%2Aindexers_kwargs%29%20%C2%B6,this%20method%20should%20use%20labels%20instead%20of%20integers.">documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">46.3</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">8.8</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>To select a single real value without specifying a method, you would need to specify the exact encoded value; not the one you see when printed.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">4.240837696335078</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">125.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>That is why we use a <code class="docutils literal notranslate"><span class="pre">method</span></code>! It makes your life easier to deal with inexact matches.</p>
+<p>As the exercise is focused on an Area Of Interest, this can be obtained through a bounding box defined with slices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span> <span class="o">=</span> <span class="n">tas_ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">54.5</span><span class="p">,</span> <span class="mf">71.5</span><span class="p">),</span> <span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">42.5</span><span class="p">))</span>
+<span class="n">tas_AOI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>the values for <code class="docutils literal notranslate"><span class="pre">lat</span></code> and <code class="docutils literal notranslate"><span class="pre">lon</span></code> need to be selected in the order shown in the coordinate section (here in increasing order) and not always in increasing order?
+<strong>You need to use the same order as the corresponding DataArray</strong>.</p>
+</div>
+</section>
+<section id="plotting">
+<h2>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">#</a></h2>
+<p>Plotting data can easily be obtained through matplotlib.pyplot back-end <a class="reference external" href="https://matplotlib.org/stable/index.html">matplotlib documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the next episode, we will learn more about advanced visualization tools and how to make interactive plots using <a class="reference external" href="https://holoviews.org/">holoviews</a>, a tool part of the <a class="reference external" href="https://holoviz.org/">HoloViz</a> ecosystem.</p>
+</section>
+<section id="basic-maths">
+<h2>Basic maths<a class="headerlink" href="#basic-maths" title="Permalink to this headline">#</a></h2>
+<p>Near-surface temperature values are in Kelvin and we can easily convert them in degrees celcius.</p>
+<p>Simple arithmetic operations can be performed without worrying about dimensions and coordinates, using the same notation we use with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. Underneath xarray will automatically vectorize the operations over all the data dimensions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span> <span class="o">-</span> <span class="mf">273.15</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The universal function (<a class="reference external" href="https://numpy.org/doc/stable/reference/ufuncs.html">ufunc</a>) from numpy and scipy can be applied too directly to the data. There are currently more than 60 universal functions defined in numpy on one or more types, covering a wide variety of operations including math operations, trigonometric functions, etc.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">tas_AOI</span><span class="p">,</span> <span class="mf">273.15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span> <span class="o">=</span> <span class="n">tas_AOI</span> <span class="o">-</span> <span class="mf">273.15</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="statistics">
+<h2>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">#</a></h2>
+<p>All the standard statistical operations can be used such as <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, <code class="docutils literal notranslate"><span class="pre">mean</span></code>. When no argument is passed to the function, the operation is done over all the dimensions of the variable (same as with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can make a statistical operation over a dimension. For instance, let’s retrieve the maximum tas value among all those available for different times, at each lat-lon location.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="aggregation">
+<h2>Aggregation<a class="headerlink" href="#aggregation" title="Permalink to this headline">#</a></h2>
+<p>We have monthly data. To obtain yearly values, we can group values per year and compute the mean.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_yearly</span> <span class="o">=</span> <span class="n">tas_AOI</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">tas_AOI</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_yearly</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we have data from 1850 to 2014, the time dimension is now <code class="docutils literal notranslate"><span class="pre">year</span></code> and takes values from <code class="docutils literal notranslate"><span class="pre">1850</span></code> to <code class="docutils literal notranslate"><span class="pre">2014</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_yearly</span><span class="o">.</span><span class="n">year</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mask">
+<h2>Mask<a class="headerlink" href="#mask" title="Permalink to this headline">#</a></h2>
+<p>Masking can be achieved through the method <code class="docutils literal notranslate"><span class="pre">DataSet|Array.where(cond,</span> <span class="pre">other)</span></code> or <code class="docutils literal notranslate"><span class="pre">xr.where(cond,</span> <span class="pre">x,</span> <span class="pre">y)</span></code>.</p>
+<p>The difference consists in the possibility to specify the value in case the condition is positive or not; <code class="docutils literal notranslate"><span class="pre">DataSet|Array.where(cond,</span> <span class="pre">other)</span></code> only offer the possibility to define the false condition value (by default is set to np.NaN))</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_masked</span> <span class="o">=</span> <span class="n">tas_AOI</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">tas_AOI</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">5.5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tas_AOI</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_masked</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To better visualize the mask, with the help of <code class="docutils literal notranslate"><span class="pre">xr.where</span></code>, ad-hoc variables can be created. ‘xr.where’ lets us specify values of 1 for masked and 0 for the unmasked data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">tas_AOI</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">5.5</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">tas_AOI</span> <span class="o">&gt;=</span> <span class="mi">15</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot a single point (defined by its latitude and longitude) over the time dimension.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_masked</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">60.0</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">10.75</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="save-xarray-dataset">
+<h2>Save xarray Dataset<a class="headerlink" href="#save-xarray-dataset" title="Permalink to this headline">#</a></h2>
+<p>It is very often convenient to save intermediate or final results into a local file. We will learn more about the different file formats Xarray can handle, but for now let’s save it as a netCDF file. Check the file size after saving the result into netCDF.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_masked</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="s2">&quot;tas_Nordic_masked.nc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="advanced-saving-methods">
+<h2>Advanced Saving methods<a class="headerlink" href="#advanced-saving-methods" title="Permalink to this headline">#</a></h2>
+<section id="encoding-and-compression">
+<h3>Encoding and Compression<a class="headerlink" href="#encoding-and-compression" title="Permalink to this headline">#</a></h3>
+<p>From the near-surface temperature dataset we already know that values are encoded as <code class="docutils literal notranslate"><span class="pre">float32</span></code>. A compression method can be defined as well; if the format is netCDF4 with the engine set to ‘netcdf4’ or ‘h5netcdf’ there are different compression options.  The easiest solution is to stick with the default one for NetCDF4 files.</p>
+<p>Note that encoding parameters needs to be done through a nested dictionary and parameters has to be defined for each single variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tas_masked</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span>
+    <span class="s2">&quot;tas_Nordic_mcs.nc&quot;</span><span class="p">,</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;netcdf4&quot;</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;tas&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="s2">&quot;zlib&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;complevel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class=\"alert alert-success\">
+<i class=\"fa-check-circle fa\" style=\"font-size: 22px;color:#666;\"></i> <b>Key Points</b>
+<br>
+<ul>
+   <li>Xarray Dataset and DataArray</li>
+   <li>Read and get metadata from local raster file</li>
+   <li>Dataset and DataArray selection</li>
+   <li>Aggregation and statistics</li>
+   <li>Masking values</li>
+   </ul>
+</div><p>Through the datatype and the compression a compression of almost 10 time has been achieved; as drawback speed reading has been decreased.</p>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id4">
+<dl class="citation">
+<dt class="label" id="id5"><span class="brackets">Kog95</span></dt>
+<dd><p>F.N. Kogan. Application of vegetation index and brightness temperature for drought detection. <em>Advances in Space Research</em>, 15(11):91–100, 1995. Natural Hazards: Monitoring and Assessment Using Remote Sensing Technique. URL: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/027311779500079T">https://www.sciencedirect.com/science/article/pii/027311779500079T</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/0273-1177(95)00079-T">doi:https://doi.org/10.1016/0273-1177(95)00079-T</a>.</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets">Wik2)</span></dt>
+<dd><p>Wikipedia. Normalized difference vegetation index. <a class="reference external" href="https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index">https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index</a>, 2022 (accessed August 7, 2022).</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="packages-citation">
+<h2>Packages citation<a class="headerlink" href="#packages-citation" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id24">
+<dl class="citation">
+<dt class="label" id="id31"><span class="brackets"><a class="fn-backref" href="#id3">HMvdW+20</a></span></dt>
+<dd><p>Charles R. Harris, K. Jarrod Millman, Stéfan J. van der Walt, Ralf Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, Julian Taylor, Sebastian Berg, Nathaniel J. Smith, Robert Kern, Matti Picus, Stephan Hoyer, Marten H. van Kerkwijk, Matthew Brett, Allan Haldane, Jaime Fernández del Río, Mark Wiebe, Pearu Peterson, Pierre Gérard-Marchant, Kevin Sheppard, Tyler Reddy, Warren Weckesser, Hameer Abbasi, Christoph Gohlke, and Travis E. Oliphant. Array programming with NumPy. <em>Nature</em>, 585(7825):357–362, September 2020. URL: <a class="reference external" href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>, <a class="reference external" href="https://doi.org/10.1038/s41586-020-2649-2">doi:10.1038/s41586-020-2649-2</a>.</p>
+</dd>
+<dt class="label" id="id29"><span class="brackets"><a class="fn-backref" href="#id1">HH17</a></span></dt>
+<dd><p>S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. <em>Journal of Open Research Software</em>, 2017. URL: <a class="reference external" href="https://doi.org/10.5334/jors.148">https://doi.org/10.5334/jors.148</a>, <a class="reference external" href="https://doi.org/10.5334/jors.148">doi:10.5334/jors.148</a>.</p>
+</dd>
+<dt class="label" id="id30"><span class="brackets"><a class="fn-backref" href="#id2">USR+20</a></span></dt>
+<dd><p>Leonardo Uieda, Santiago Rubén Soler, Rémi Rampin, Hugo van Kemenade, Matthew Turk, Daniel Shapero, Anderson Banihirwe, and John Leeman. Pooch: a friend to fetch your data files. <em>Journal of Open Source Software</em>, 5(45):1943, 2020. URL: <a class="reference external" href="https://doi.org/10.21105/joss.01943">https://doi.org/10.21105/joss.01943</a>, <a class="reference external" href="https://doi.org/10.21105/joss.01943">doi:10.21105/joss.01943</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./pangeo101"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../before/setup.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Setup: how to run the tutorial</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="visualization.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Interactive plotting with HoloViews</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Pangeo<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

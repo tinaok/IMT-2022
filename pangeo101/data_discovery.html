@@ -1,0 +1,1572 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Data access and discovery &#8212; Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data chunking" href="chunking_introduction.html" />
+    <link rel="prev" title="Interactive plotting with HoloViews" href="visualization.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/pangeo_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome 👋
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Before the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../before/setup.html">
+   Setup: how to run the tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Pangeo 101
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="xarray_introduction.html">
+   Handling multi-dimensional arrays with xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="visualization.html">
+   Interactive plotting with holoviews
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Data access and discovery
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chunking_introduction.html">
+   Chunking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dask_introduction.html">
+   Parallel computing with dask
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Resources and Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/examples.html">
+   How to
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6-ocean.html">
+   Multidimensional Coordinates example using CMIP6 Pangeo ocean model data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6_example.html">
+   Manipulation of CMIP6 model data using Pangeo catalog
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MODIS-seaice.html">
+   MODIS Sea-ice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MOD_AquaCHL_ADAM.html">
+   Using ADAM-API to access MODIS Aqua CHL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/UERRA_ADAM.html">
+   Using ADAM-API to access UERRA regional reanalysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/gridded_model_data_rolling_mean.html">
+   Rolling mean with CMIP6
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/masked_and_weighted_average.html">
+   Using masks and computing weighted average
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/nird-ESGF.html">
+   Using public data on NIRD using s3 and saving results in private s3 object storage
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/projections.html">
+   Using cartopy and projections for plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-AERONET.html">
+   Reading AERONET data with pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS.html">
+   Reading MODIS data with xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS-SUB-XYD-xarray.html">
+   Read MODIS Terra/Aqua netcdf as xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_larger_files_to_forces_bucket.html">
+   Save files from bucket to bucket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_to_forces_bucket.html">
+   Save small local files to forces
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/search_and_load_with_esgf_opendap.html">
+   Search and Load CMIP6 Data via ESGF / OPeNDAP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/some-xarray-pandas-presentation_Sara.html">
+   Some tips with xarray and pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xarray2pandas.html">
+   From xarray to pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xesmf_regridding.html">
+   Regridding model data with xESMF
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beyond the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/resources.html">
+   Join the community!
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/pythia.html">
+   Project Pythia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/envds-book.html">
+   Environmental Data Science Book
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022/issues/new?title=Issue%20on%20page%20%2Fpangeo101/data_discovery.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/pangeo101/data_discovery.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction-to-cmip6-data">
+     Introduction to CMIP6 data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#very-useful-links">
+       Very useful links:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#other-links">
+       Other links:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#advantages">
+       Advantages:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#experiments-deck">
+       Experiments (DECK)
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#s3-compatible-object-storage-to-access-online-data">
+     S3-compatible Object Storage to access online data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction-to-the-pangeo-cmip6-online-catalog">
+     Introduction to the Pangeo CMIP6 online catalog
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#open-cmip6-online-catalog">
+     Open CMIP6 online catalog
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#search-corresponding-data">
+     Search corresponding data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-dictionary-from-the-list-of-datasets-we-found">
+   Create dictionary from the list of datasets we found
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-dataset">
+   Open dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-metadata-corresponding-to-near-surface-air-temperature-tas">
+     Get metadata corresponding to near-surface air temperature (tas)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#access-remote-files-from-s3-compatible-object-storage">
+     Access remote files from S3-compatible Object Storage
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#list-files-and-folders-in-existing-buckets">
+       List files and folders in existing buckets
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id4">
+       Access remote files from S3-compatible Object Storage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rename-dimensions-and-variables">
+     Rename dimensions and variables
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coordinates">
+     Coordinates
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#access-multiple-remote-files">
+       Access multiple remote files
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#apply-the-same-pre-processing-as-earlier">
+     Apply the same pre-processing as earlier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-and-discover-online-datasets">
+   Preparing and discover online datasets
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analysis-ready-cloud-optimized-data-arco">
+     Analysis Ready, cloud optimized data (ARCO)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-pangeo-forge-initiative">
+     The Pangeo forge initiative
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#how-does-pangeo-forge-work">
+       How does Pangeo Forge work?
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spatio-temporal-asset-catalogs-stac">
+     Spatio Temporal Asset Catalogs (STAC)
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#why-stac">
+       Why STAC?
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#features">
+       Features
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stac-and-pangeo-forge">
+       STAC and Pangeo Forge
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Data access and discovery</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction-to-cmip6-data">
+     Introduction to CMIP6 data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#very-useful-links">
+       Very useful links:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#other-links">
+       Other links:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#advantages">
+       Advantages:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#experiments-deck">
+       Experiments (DECK)
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#s3-compatible-object-storage-to-access-online-data">
+     S3-compatible Object Storage to access online data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction-to-the-pangeo-cmip6-online-catalog">
+     Introduction to the Pangeo CMIP6 online catalog
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#open-cmip6-online-catalog">
+     Open CMIP6 online catalog
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#search-corresponding-data">
+     Search corresponding data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-dictionary-from-the-list-of-datasets-we-found">
+   Create dictionary from the list of datasets we found
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-dataset">
+   Open dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#get-metadata-corresponding-to-near-surface-air-temperature-tas">
+     Get metadata corresponding to near-surface air temperature (tas)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#access-remote-files-from-s3-compatible-object-storage">
+     Access remote files from S3-compatible Object Storage
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#list-files-and-folders-in-existing-buckets">
+       List files and folders in existing buckets
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id4">
+       Access remote files from S3-compatible Object Storage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rename-dimensions-and-variables">
+     Rename dimensions and variables
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coordinates">
+     Coordinates
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#access-multiple-remote-files">
+       Access multiple remote files
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#apply-the-same-pre-processing-as-earlier">
+     Apply the same pre-processing as earlier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-and-discover-online-datasets">
+   Preparing and discover online datasets
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#analysis-ready-cloud-optimized-data-arco">
+     Analysis Ready, cloud optimized data (ARCO)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-pangeo-forge-initiative">
+     The Pangeo forge initiative
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#how-does-pangeo-forge-work">
+       How does Pangeo Forge work?
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spatio-temporal-asset-catalogs-stac">
+     Spatio Temporal Asset Catalogs (STAC)
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#why-stac">
+       Why STAC?
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#features">
+       Features
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stac-and-pangeo-forge">
+       STAC and Pangeo Forge
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="data-access-and-discovery">
+<h1>Data access and discovery<a class="headerlink" href="#data-access-and-discovery" title="Permalink to this headline">#</a></h1>
+<section id="authors-contributors">
+<h2>Authors &amp; Contributors<a class="headerlink" href="#authors-contributors" title="Permalink to this headline">#</a></h2>
+<section id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Pier Lorenzo Marasco, Ispra (Italy), <a class="reference external" href="https://github.com/pl-marasco">&#64;pl-marasco</a></p></li>
+<li><p>Alejandro Coca-Castro, The Alan Turing Institute (United Kingdom), <a class="reference external" href="https://github.com/acocac">&#64;acocac</a></p></li>
+<li><p>Anne Fouilloux, Simula Research Laboratory (Norway), <a class="reference external" href="https://github.com/annefou">&#64;annefou</a></p></li>
+</ul>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Tina Odaka, Ifremer (France), <a class="reference external" href="https://github.com/tinaok">&#64;tinaok</a></p></li>
+</ul>
+<div class="alert alert-info">
+    <i class="fa-question-circle fa" style="font-size: 22px;color:#666;"></i> <b>Overview</b>
+    <br>
+    <br>
+    <b>Questions</b>
+    <ul>
+        <li>How to access online (remote) datasets?</li>
+        <li>How to prepare and discover online geoscience datasets?</li>
+        <li>What is Analysis Ready, Cloud Optimized data (ARCO)?</li>
+        <li>What is pangeo-forge?</li>
+        <li>What is stac?</li>
+    </ul>
+    <b>Objectives</b>
+    <ul>
+        <li>Learn to access datasets from online object storage</li>
+        <li>Learn about preparing and discovery online datasets</li>
+        <li>Learn about Analysis Cloud Optimized (ARCO) data</li>
+        <li>Learn about the Pangeo Forge initiative</li>
+        <li>Learn about stac</li>
+    </ul>
+</div></section>
+</section>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Permalink to this headline">#</a></h2>
+<p>We will be using CMIP6 data and access them through <a class="reference external" href="https://en.wikipedia.org/wiki/Amazon_S3">S3-compatible storage</a> using <a class="reference external" href="https://pangeo-data.github.io/pangeo-cmip6-cloud/pangeo_catalog.html">Pangeo Catalog</a>.</p>
+<p>We will also discuss the generation of Cloud-Optimised Datasets by introducing the <a class="reference external" href="https://pangeo-forge.org">pangeo-forge</a> initiative. Finally, we will explore <a class="reference external" href="https://registry.opendata.aws/sentinel-2-l2a-cogs/">Sentinel-2 Cloud-Optimised Dataset</a> online through SpatioTemporal Asset Catalogs (<a class="reference external" href="https://stacspec.org/en">STAC</a>).</p>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">#</a></h2>
+<p>This episode uses the following main Python packages:</p>
+<ul class="simple">
+<li><p>xarray <span id="id1">[<a class="reference internal" href="#id37" title="S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. Journal of Open Research Software, 2017. URL: https://doi.org/10.5334/jors.148, doi:10.5334/jors.148.">HH17</a>]</span> with <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">netCDF4</span></code></a> and <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">h5netcdf</span></code></a> engines</p></li>
+<li><p>intake-esm <span id="id2">[]</span></p></li>
+<li><p>s3fs <span id="id3">[<a class="reference internal" href="#id49" title="S3Fs Development Team. S3Fs. 2016. URL: https://github.com/fsspec/s3fs/.">S3FsDTeam16</a>]</span></p></li>
+</ul>
+<p>Please install these packages if not already available in your Python environment.</p>
+<section id="packages">
+<h3>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h3>
+<p>In this episode, Python packages are imported when we start to use them. However, for best software practices, we recommend you to install and import all the necessary libraries at the top of your Jupyter notebook.</p>
+</section>
+<section id="introduction-to-cmip6-data">
+<h3>Introduction to CMIP6 data<a class="headerlink" href="#introduction-to-cmip6-data" title="Permalink to this headline">#</a></h3>
+<p>Coupled Model Intercomparison project Phase 6</p>
+<ul class="simple">
+<li><p>Project under World Climate Research Programme (WCRP)</p></li>
+<li><p>Since 1995 CMIP has coordinated climate model experiments</p></li>
+<li><p>Defines common experiment protocols, forcings and output.</p></li>
+<li><p>33 model groups participate</p></li>
+</ul>
+<section id="very-useful-links">
+<h4>Very useful links:<a class="headerlink" href="#very-useful-links" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>Database for data request: <a class="reference external" href="http://clipc-services.ceda.ac.uk/dreq/index.html">http://clipc-services.ceda.ac.uk/dreq/index.html</a></p>
+<ul>
+<li><p><strong>–&gt;SEARCH FOR VARIABLES</strong>: <a class="reference external" href="http://clipc-services.ceda.ac.uk/dreq/mipVars.html">http://clipc-services.ceda.ac.uk/dreq/mipVars.html</a></p></li>
+<li><p>Search for experiments: <a class="reference external" href="http://clipc-services.ceda.ac.uk/dreq/experiments.html">http://clipc-services.ceda.ac.uk/dreq/experiments.html</a></p></li>
+</ul>
+</li>
+<li><p>Overview: <a class="reference external" href="https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6">https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6</a></p></li>
+<li><p>ES-DOCs: <a class="reference external" href="https://search.es-doc.org/">https://search.es-doc.org/</a></p></li>
+</ul>
+</section>
+<section id="other-links">
+<h4>Other links:<a class="headerlink" href="#other-links" title="Permalink to this headline">#</a></h4>
+<p>GMD special issue with articles explaining all MIPs in CMIP6 :
+<a class="reference external" href="https://www.geosci-model-dev.net/special_issue590.html">https://www.geosci-model-dev.net/special_issue590.html</a></p>
+<ul class="simple">
+<li><p>General CMIP6 website <a class="reference external" href="https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6">https://www.wcrp-climate.org/wgcm-cmip/wgcm-cmip6</a></p></li>
+<li><p>Guidance documents: (<a class="reference external" href="https://pcmdi.llnl.gov/CMIP6/">https://pcmdi.llnl.gov/CMIP6/</a>)</p></li>
+<li><p>Emissions/Forcing datasets (<a class="reference external" href="https://esgf-node.llnl.gov/projects/input4mips/">https://esgf-node.llnl.gov/projects/input4mips/</a>)</p></li>
+<li><p>Participating Modelling Groups (<a class="reference external" href="https://rawgit.com/WCRP-CMIP/CMIP6_CVs/master/src/CMIP6_institution_id.html">https://rawgit.com/WCRP-CMIP/CMIP6_CVs/master/src/CMIP6_institution_id.html</a>)</p></li>
+<li><p>Model and experiment documentation (<a class="reference external" href="https://search.es-doc.org/">https://search.es-doc.org/</a>)</p></li>
+<li><p>CMIP6 ESMValTool evaluation and analysis results (<a class="reference external" href="https://cmip-esmvaltool.dkrz.de/">https://cmip-esmvaltool.dkrz.de/</a>)</p></li>
+<li><p>Emission visualising: <a class="reference external" href="https://eccad.aeris-data.fr">https://eccad.aeris-data.fr</a></p></li>
+</ul>
+</section>
+<section id="advantages">
+<h4>Advantages:<a class="headerlink" href="#advantages" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>Homogenized and standardized outputs</p></li>
+<li><p>Same variable name</p></li>
+<li><p>Same experiments</p></li>
+</ul>
+</section>
+<section id="experiments-deck">
+<h4>Experiments (DECK)<a class="headerlink" href="#experiments-deck" title="Permalink to this headline">#</a></h4>
+<p><img alt="image" src="https://user-images.githubusercontent.com/17406708/139691209-ec237004-637b-4947-bb12-104d78a2fe44.png" /></p>
+</section>
+</section>
+<section id="s3-compatible-object-storage-to-access-online-data">
+<h3>S3-compatible Object Storage to access online data<a class="headerlink" href="#s3-compatible-object-storage-to-access-online-data" title="Permalink to this headline">#</a></h3>
+<p>Up to now we have downloaded data locally and then opened with Xarray <code class="docutils literal notranslate"><span class="pre">open_dataset</span></code>. When willing to manipulate large amount of data, this approach is not optimal (since it requires a lot of unnecessary local downloads). Sharing data online as Object Storage allows for data sharing and access to much larger amounts of data.</p>
+<p>One of the most popular methods to access online remote data is through Amazon Simple Storage Service (S3) and you don’t necessarily need to use Amazon services to benefit from S3 object storage. Many other providers offer S3-compatible object storage that can be accessed in a very similar way.</p>
+<p>When using S3-compatible object storage, you still need to list all the files you would like to access. With such amount of data, it would be very cumbersome. This is why a catalog is created: this catalog is a text file (<code class="docutils literal notranslate"><span class="pre">json</span></code> format) which describes where and which data to get. It adds additional metadata too. CMIP6 Pangeo online catalog can be loaded using <code class="docutils literal notranslate"><span class="pre">intake-esm</span></code> Python package.</p>
+</section>
+<section id="introduction-to-the-pangeo-cmip6-online-catalog">
+<h3>Introduction to the Pangeo CMIP6 online catalog<a class="headerlink" href="#introduction-to-the-pangeo-cmip6-online-catalog" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">display_style</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">intake</span>
+<span class="kn">import</span> <span class="nn">cftime</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="open-cmip6-online-catalog">
+<h3>Open CMIP6 online catalog<a class="headerlink" href="#open-cmip6-online-catalog" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat_url</span> <span class="o">=</span> <span class="s2">&quot;https://storage.googleapis.com/cmip6/pangeo-cmip6.json&quot;</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">cat_url</span><span class="p">)</span>
+<span class="n">col</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="search-corresponding-data">
+<h3>Search corresponding data<a class="headerlink" href="#search-corresponding-data" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">source_id</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CESM2&quot;</span><span class="p">],</span>
+    <span class="n">experiment_id</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;historical&quot;</span><span class="p">],</span>
+    <span class="n">table_id</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Amon&quot;</span><span class="p">],</span>
+    <span class="n">variable_id</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">],</span>
+    <span class="n">member_id</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;r1i1p1f1&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">cat</span><span class="o">.</span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="create-dictionary-from-the-list-of-datasets-we-found">
+<h2>Create dictionary from the list of datasets we found<a class="headerlink" href="#create-dictionary-from-the-list-of-datasets-we-found" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>This step may take several minutes so be patient!</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dset_dict</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">to_dataset_dict</span><span class="p">(</span><span class="n">zarr_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;use_cftime&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dset_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">dataset_list</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="open-dataset">
+<h2>Open dataset<a class="headerlink" href="#open-dataset" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">xarray</span></code> python package to analyze netCDF dataset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">open_dataset</span></code> allows to get all the metadata without loading data into memory.</p></li>
+<li><p>with <code class="docutils literal notranslate"><span class="pre">xarray</span></code>, we only load into memory what is needed.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dset</span> <span class="o">=</span> <span class="n">dset_dict</span><span class="p">[</span><span class="n">dataset_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">dset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="get-metadata-corresponding-to-near-surface-air-temperature-tas">
+<h3>Get metadata corresponding to near-surface air temperature (tas)<a class="headerlink" href="#get-metadata-corresponding-to-near-surface-air-temperature-tas" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dset</span><span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dset</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dset</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">10.75</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1850-12-15&quot;</span><span class="p">)[</span><span class="s2">&quot;tas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The same dataset can be available from different locations e.g. ESGF, Zenodo, S3-compatible Object storage, etc.
+How do you know if it corresponds to the very same dataset? You cannot know except if the datasets have a persistent identifier such as a Digital Object Identifier.
+It is therefore recommended <em>1)</em> to be extra careful about where you get your datasets, and <em>2)</em> to double check that the content is exactly what you expect (for instance, you can perform basic quality checks).</p>
+</div>
+</section>
+<section id="access-remote-files-from-s3-compatible-object-storage">
+<h3>Access remote files from S3-compatible Object Storage<a class="headerlink" href="#access-remote-files-from-s3-compatible-object-storage" title="Permalink to this headline">#</a></h3>
+<p>The Pangeo CMIP6 online catalog is very user-friendly. However, the complete ESGF CMIP6 catalog is close to 20 PB and so far only a very tiny amount of cloud-optimised CMIP6 data has been generated (approximately 1PB).
+Therefore, you may have to download CMIP6 data or other kind of data for instance when comparing CMIP6 model outputs with observations.</p>
+<p>Rather than downloading datasets locally and individually, it is recommended to share what you download to everyone. Additional datasets are being stored and made
+publicly available in OpenStack Object storage (Swift).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">s3fs</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span>
+    <span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">client_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;endpoint_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://object-store.cloud.muni.cz&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">anon</span></code> is for <code class="docutils literal notranslate"><span class="pre">anonymous</span></code> and is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> because the data we have stored at <code class="docutils literal notranslate"><span class="pre">https://object-store.cloud.muni.cz</span></code> is public</p>
+</div>
+<section id="list-files-and-folders-in-existing-buckets">
+<h4>List files and folders in existing buckets<a class="headerlink" href="#list-files-and-folders-in-existing-buckets" title="Permalink to this headline">#</a></h4>
+<p>Instead of organizing files in various folders, object storage systems store files in a flat organization of containers (called “buckets”).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="s2">&quot;MODIS&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="s2">&quot;MODIS/MOD08_M3.A2000183.061.2017276075622.nc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h4>Access remote files from S3-compatible Object Storage<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3path</span> <span class="o">=</span> <span class="s2">&quot;s3://MODIS/MOD08_M3.A2000183.061.2017276075622.nc&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">s3path</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="rename-dimensions-and-variables">
+<h3>Rename dimensions and variables<a class="headerlink" href="#rename-dimensions-and-variables" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;YDim:mod08&quot;</span><span class="p">:</span> <span class="s2">&quot;lat&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XDim:mod08&quot;</span><span class="p">:</span> <span class="s2">&quot;lon&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Effective_Optical_Depth_Average_Ocean_Micron_Levels:mod08&quot;</span><span class="p">:</span> <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">rename_vars</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;YDim&quot;</span><span class="p">:</span> <span class="s2">&quot;lat&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XDim&quot;</span><span class="p">:</span> <span class="s2">&quot;lon&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Effective_Optical_Depth_Average_Ocean_Micron_Levels&quot;</span><span class="p">:</span> <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="coordinates">
+<h3>Coordinates<a class="headerlink" href="#coordinates" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">levels</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;levels&quot;</span><span class="p">:</span> <span class="n">z</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">10.75</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)[</span>
+    <span class="s2">&quot;Aerosol_Optical_Depth_Land_Ocean_Mean_Mean&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="access-multiple-remote-files">
+<h4>Access multiple remote files<a class="headerlink" href="#access-multiple-remote-files" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3path</span> <span class="o">=</span> <span class="s2">&quot;s3://MODIS/*.nc&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">remote_files</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">s3path</span><span class="p">)</span>
+<span class="n">remote_files</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to add a time dimension to concatenate data. For this, we define a function that will be called for each remote file (via the <code class="docutils literal notranslate"><span class="pre">preprocess</span></code> parameter of Xarray <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code>.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">paths_to_datetimeindex</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.A&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;%Y%j&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">paths</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Xarray <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code> allows opening multiple files at the same time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Iterate through remote_files to create a fileset</span>
+<span class="n">fileset</span> <span class="o">=</span> <span class="p">[</span><span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">remote_files</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When opening remote files, you can also select the variables you wish to analyze.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create variable used for time axis</span>
+<span class="n">time_var</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">paths_to_datetimeindex</span><span class="p">(</span><span class="n">remote_files</span><span class="p">))</span>
+<span class="n">time_var</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load in and concatenate all individual GeoTIFFs</span>
+<span class="n">modis</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fileset</span>
+    <span class="p">],</span>
+    <span class="n">dim</span><span class="o">=</span><span class="n">time_var</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="apply-the-same-pre-processing-as-earlier">
+<h3>Apply the same pre-processing as earlier<a class="headerlink" href="#apply-the-same-pre-processing-as-earlier" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;YDim:mod08&quot;</span><span class="p">:</span> <span class="s2">&quot;lat&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XDim:mod08&quot;</span><span class="p">:</span> <span class="s2">&quot;lon&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Effective_Optical_Depth_Average_Ocean_Micron_Levels:mod08&quot;</span><span class="p">:</span> <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">rename_vars</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;YDim&quot;</span><span class="p">:</span> <span class="s2">&quot;lat&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;XDim&quot;</span><span class="p">:</span> <span class="s2">&quot;lon&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Effective_Optical_Depth_Average_Ocean_Micron_Levels&quot;</span><span class="p">:</span> <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span> <span class="o">=</span> <span class="n">modis</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;levels&quot;</span><span class="p">:</span> <span class="n">z</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you use one of xarray’s open methods such as xarray.open_dataset to load netCDF files with the default engine, it is recommended to use decode_coords=”all”. This will load the grid mapping variable into coordinates for compatibility with rioxarray. See <a class="reference external" href="https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html#xarray">rioxarray documentation</a>.</p>
+</div>
+</section>
+</section>
+<section id="preparing-and-discover-online-datasets">
+<h2>Preparing and discover online datasets<a class="headerlink" href="#preparing-and-discover-online-datasets" title="Permalink to this headline">#</a></h2>
+<p>With the plethora of cloud storage, there are many available online datasets. To ease the preparation and discovery of such datasets, we describe emerging community-driven initiatives promoting standards suited to both geospatial and geoscience communities. Most of the material below is adapted from a previous Pangeo 101 training <span id="id5">[<a class="reference internal" href="#id16" title="Basile Goussard, Ryan Abernathey, and Anne Fouilloux. The pangeo ecosystem. https://training.galaxyproject.org/training-material/topics/climate/tutorials/pangeo-notebook/slides.html#1, 2022 (accessed August 7, 2022).">GAF2)</a>]</span>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>While we provide a general intro to some initiatives, we suggest below a list of FOSS4G 2022 talks with very interesting developments to prepare and discover spatio-temporal datasets in the cloud. Enjoy!</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://talks.osgeo.org/foss4g-2022/talk/9RRYZM/">STAC Best Practices and Tools</a>, 2022-08-24, 11:00–11:30</p></li>
+<li><p><a class="reference external" href="https://talks.osgeo.org/foss4g-2022/talk/HG7RLR/">Early use of FOSS4G in a space start up</a>, 2022-08-24, 11:30–12:00</p></li>
+<li><p><a class="reference external" href="https://talks.osgeo.org/foss4g-2022/talk/L3KNY8/">Exploring Data Interoperability with STAC and the Microsoft Planetary Computer</a>, 2022-08-24, 12:10–12:15</p></li>
+<li><p><a class="reference external" href="https://talks.osgeo.org/foss4g-2022/talk/SQYE9A/">Serving oblique aerial imagery using STAC and Cloud Optimized Geotiffs</a>, 2022-08-24, 14:45–15:15</p></li>
+<li><p><a class="reference external" href="https://talks.osgeo.org/foss4g-2022/talk/DABTGG/">Pangeo Forge: Crowdsourcing Open Data in the Cloud</a>. 2022-08-26, 10:00-10:30.</p></li>
+</ul>
+</div>
+<section id="analysis-ready-cloud-optimized-data-arco">
+<h3>Analysis Ready, cloud optimized data (ARCO)<a class="headerlink" href="#analysis-ready-cloud-optimized-data-arco" title="Permalink to this headline">#</a></h3>
+<p>When analyzing data at scale, the data format used is key. For years, the main data format was netCDF e.g. Network Common Data Form but with the use of cloud computing and interest in Open Science, different formats are often more suitable.</p>
+<p>Formats for analyzing data from the cloud are refered to as “Analysis Ready, Cloud Optimized” data formats or in short ARCO. Find further info about ARCO datasets in <span id="id6">[<a class="reference internal" href="#id15" title="Charles Stern, Ryan Abernathey, Joseph Hamman, Rachel Wegener, Chiara Lepore, Sean Harkins, and Alexander Merose. Pangeo forge: crowdsourcing analysis-ready, cloud optimized data production. Frontiers in Climate, 2022. URL: https://www.frontiersin.org/articles/10.3389/fclim.2021.782909, doi:10.3389/fclim.2021.782909.">SAH+22</a>]</span>.</p>
+<p>What is “Analysis Ready”?</p>
+<ul class="simple">
+<li><p>Think in terms of “Datasets” not “data files”</p></li>
+<li><p>No need for tedious homogenizing / cleaning setup guides</p></li>
+<li><p>Curated and cataloged</p></li>
+</ul>
+<p>What is “Cloud Optimized”?</p>
+<ul class="simple">
+<li><p>Compatible with object storage e.g. access via HTTP</p></li>
+<li><p>Supports lazy access and intelligent subsetting</p></li>
+<li><p>Integrates with high-level analysis libraries and distributed frameworks</p></li>
+</ul>
+<p>Instead of having a big dataset, ARCO datasets are chunked appropriately for analysis and have rich metadata (See Figure 1).</p>
+<p><img src="https://github.com/galaxyproject/training-material/blob/696dfecd4c88e59b487a7a3557cfedca6ec5754b/topics/climate/images/arco_data.png?raw=true" align="Left" /></a></p>
+<p><em>Fig 1. Example of an ARCO dataset. Source: <span id="id7">[<a class="reference internal" href="#id16" title="Basile Goussard, Ryan Abernathey, and Anne Fouilloux. The pangeo ecosystem. https://training.galaxyproject.org/training-material/topics/climate/tutorials/pangeo-notebook/slides.html#1, 2022 (accessed August 7, 2022).">GAF2)</a>]</span>.</em></p>
+</section>
+<section id="the-pangeo-forge-initiative">
+<h3>The Pangeo forge initiative<a class="headerlink" href="#the-pangeo-forge-initiative" title="Permalink to this headline">#</a></h3>
+<p><a class="reference external" href="https://pangeo-forge.org/">Pangeo Forge</a> is an open source platform for data <strong>Extraction</strong>, <strong>Transformation</strong>, and <strong>Loading</strong> (ETL). The goal of <em>Pangeo Forge</em> is to make it easy to extract data from traditional repositories and deposit this data in cloud object storage in an analysis-ready, cloud optimized (ARCO) format <span id="id8">[<a class="reference internal" href="#id16" title="Basile Goussard, Ryan Abernathey, and Anne Fouilloux. The pangeo ecosystem. https://training.galaxyproject.org/training-material/topics/climate/tutorials/pangeo-notebook/slides.html#1, 2022 (accessed August 7, 2022).">GAF2)</a>]</span>.</p>
+<p>Pangeo Forge is inspired directly by Conda Forge, a community-led collection of recipes for building conda packages.</p>
+<p>It is under active development and the Pangeo community hopes it will play a role in democratizing the publication of datasets in ARCO format.</p>
+<section id="how-does-pangeo-forge-work">
+<h4>How does Pangeo Forge work?<a class="headerlink" href="#how-does-pangeo-forge-work" title="Permalink to this headline">#</a></h4>
+<p>Pangeo Forge defines the concept of a recipe, which specifies the logic for transforming a specific data archive into an ARCO data store.
+All contributions to Pangeo Forge must include an executable Python module, named <a class="reference external" href="http://recipe.py">recipe.py</a> or similar, in which the data transformation logic is embedded (Figure 2).
+The recipe contributor is expected to use one of a predefined set of template algorithms defined by Pangeo Forge.
+Each of these templated algorithms is designed to transform data of a particular source type into a corresponding ARCO format, and requires only that the contributor populate the template with information unique to their specific data transformation, including the location of the source files and the way in which they should be aligned in the resulting ARCO data store <span id="id9">[<a class="reference internal" href="#id15" title="Charles Stern, Ryan Abernathey, Joseph Hamman, Rachel Wegener, Chiara Lepore, Sean Harkins, and Alexander Merose. Pangeo forge: crowdsourcing analysis-ready, cloud optimized data production. Frontiers in Climate, 2022. URL: https://www.frontiersin.org/articles/10.3389/fclim.2021.782909, doi:10.3389/fclim.2021.782909.">SAH+22</a>]</span>.</p>
+<p>The diagram below looks complicated but like for conda forge most of the process is automated.</p>
+<p><img src="https://www.frontiersin.org/files/Articles/782909/fclim-03-782909-HTML/image_m/fclim-03-782909-g002.jpg" align="Left" /></a></p>
+<p><em>Fig 2. A recipe in relation to Pangeo Forge architecture. Source: <span id="id10">[<a class="reference internal" href="#id15" title="Charles Stern, Ryan Abernathey, Joseph Hamman, Rachel Wegener, Chiara Lepore, Sean Harkins, and Alexander Merose. Pangeo forge: crowdsourcing analysis-ready, cloud optimized data production. Frontiers in Climate, 2022. URL: https://www.frontiersin.org/articles/10.3389/fclim.2021.782909, doi:10.3389/fclim.2021.782909.">SAH+22</a>]</span>.</em></p>
+<p>The next step after preparing the dataset is then to tell the community where and how to access to your transformed dataset.</p>
+<p>This is done by creating a catalog.</p>
+</section>
+</section>
+<section id="spatio-temporal-asset-catalogs-stac">
+<h3>Spatio Temporal Asset Catalogs (STAC)<a class="headerlink" href="#spatio-temporal-asset-catalogs-stac" title="Permalink to this headline">#</a></h3>
+<p>The <a class="reference external" href="https://stacspec.org/en/">STAC</a> specification is a common language to describe geospatial information, so it can more easily be worked with, indexed, and discovered.</p>
+<section id="why-stac">
+<h4>Why STAC?<a class="headerlink" href="#why-stac" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>Each provider has its own catalog and interface (APIs).</p></li>
+<li><p>Every time you want to access a new catalog, you need to change your program.</p></li>
+<li><p>We have lots of data providers and each with a bespoke interface.</p></li>
+<li><p>It is becoming quickly difficult for programmers who need to design a new data connector each time.</p></li>
+</ul>
+</section>
+<section id="features">
+<h4>Features<a class="headerlink" href="#features" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>STAC catalogs are extremely simple.</p></li>
+<li><p>They are composed of three layers:</p>
+<ul>
+<li><p><strong>Catalogs</strong></p>
+<ul>
+<li><p><strong>Collections</strong></p>
+<ul>
+<li><p><strong>Items</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>STAC is very popular for Earth Observation satellite imagery.</p></li>
+<li><p>For instance it can be used to access Sentinel-2 in AWS (see Figure 3).</p></li>
+</ul>
+<p><img src="https://github.com/galaxyproject/training-material/blob/696dfecd4c88e59b487a7a3557cfedca6ec5754b/topics/climate/images/sentinel2_AWS.png?raw=true" align="Left" /></a></p>
+<p><em>Fig 3. Example of STAC collection of Sentinel-2 images hosted in AWS.
+Source: <span id="id11">[<a class="reference internal" href="#id16" title="Basile Goussard, Ryan Abernathey, and Anne Fouilloux. The pangeo ecosystem. https://training.galaxyproject.org/training-material/topics/climate/tutorials/pangeo-notebook/slides.html#1, 2022 (accessed August 7, 2022).">GAF2)</a>]</span>.</em></p>
+</section>
+<section id="stac-and-pangeo-forge">
+<h4>STAC and Pangeo Forge<a class="headerlink" href="#stac-and-pangeo-forge" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>Pangeo-forge supports the creation of analysis-ready cloud optimized (ARCO) data in cloud object storage from “classical” data repositories.</p></li>
+<li><p>STAC is used to create catalogs and goes beyond the Pangeo ecosystem.</p></li>
+<li><p>Work is ongoing to figure out the best way to expose Pangeo-Forge-generated data assets via STAC catalogs.</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Pangeo members, Scott Henderson (University of Washington) and Tom Augspurger (Microsoft), provided a great workshop in FOSS4G 2021 covering STAC.</p>
+<p>Feel free to explore the GitHub repository of the  <a class="reference external" href="https://github.com/pangeo-data/foss4g-2021">here</a>.</p>
+</div>
+<div class="alert alert-success">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Key Points</b>
+    <br>
+    <ul>
+        <li>Access to remote dataset</li>
+        <li>ARCO datasets</li>
+        <li>Pangeo Forge</li>
+        <li>STAC</li>
+    </ul>
+</div></section>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id12">
+<dl class="citation">
+<dt class="label" id="id16"><span class="brackets">GAF2)</span><span class="fn-backref">(<a href="#id5">1</a>,<a href="#id7">2</a>,<a href="#id8">3</a>,<a href="#id11">4</a>)</span></dt>
+<dd><p>Basile Goussard, Ryan Abernathey, and Anne Fouilloux. The pangeo ecosystem. <a class="reference external" href="https://training.galaxyproject.org/training-material/topics/climate/tutorials/pangeo-notebook/slides.html#1">https://training.galaxyproject.org/training-material/topics/climate/tutorials/pangeo-notebook/slides.html#1</a>, 2022 (accessed August 7, 2022).</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets">SAH+22</span><span class="fn-backref">(<a href="#id6">1</a>,<a href="#id9">2</a>,<a href="#id10">3</a>)</span></dt>
+<dd><p>Charles Stern, Ryan Abernathey, Joseph Hamman, Rachel Wegener, Chiara Lepore, Sean Harkins, and Alexander Merose. Pangeo forge: crowdsourcing analysis-ready, cloud optimized data production. <em>Frontiers in Climate</em>, 2022. URL: <a class="reference external" href="https://www.frontiersin.org/articles/10.3389/fclim.2021.782909">https://www.frontiersin.org/articles/10.3389/fclim.2021.782909</a>, <a class="reference external" href="https://doi.org/10.3389/fclim.2021.782909">doi:10.3389/fclim.2021.782909</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="packages-citation">
+<h2>Packages citation<a class="headerlink" href="#packages-citation" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id32">
+<dl class="citation">
+<dt class="label" id="id37"><span class="brackets"><a class="fn-backref" href="#id1">HH17</a></span></dt>
+<dd><p>S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. <em>Journal of Open Research Software</em>, 2017. URL: <a class="reference external" href="https://doi.org/10.5334/jors.148">https://doi.org/10.5334/jors.148</a>, <a class="reference external" href="https://doi.org/10.5334/jors.148">doi:10.5334/jors.148</a>.</p>
+</dd>
+<dt class="label" id="id49"><span class="brackets"><a class="fn-backref" href="#id3">S3FsDTeam16</a></span></dt>
+<dd><p>S3Fs Development Team. <em>S3Fs</em>. 2016. URL: <a class="reference external" href="https://github.com/fsspec/s3fs/">https://github.com/fsspec/s3fs/</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./pangeo101"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="visualization.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Interactive plotting with HoloViews</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="chunking_introduction.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data chunking</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Pangeo<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

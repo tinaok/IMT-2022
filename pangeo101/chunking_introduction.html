@@ -1,0 +1,1300 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Data chunking &#8212; Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parallel computing with Dask" href="dask_introduction.html" />
+    <link rel="prev" title="Data access and discovery" href="data_discovery.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/pangeo_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pangeo Tutorial at CLIVAR CMIP6 Bootcamp 2022</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome 👋
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Before the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../before/setup.html">
+   Setup: how to run the tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Pangeo 101
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="xarray_introduction.html">
+   Handling multi-dimensional arrays with xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="visualization.html">
+   Interactive plotting with holoviews
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_discovery.html">
+   Data access and discovery
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chunking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dask_introduction.html">
+   Parallel computing with dask
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Resources and Examples
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/examples.html">
+   How to
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6-ocean.html">
+   Multidimensional Coordinates example using CMIP6 Pangeo ocean model data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/CMIP6_example.html">
+   Manipulation of CMIP6 model data using Pangeo catalog
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MODIS-seaice.html">
+   MODIS Sea-ice
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/MOD_AquaCHL_ADAM.html">
+   Using ADAM-API to access MODIS Aqua CHL
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/UERRA_ADAM.html">
+   Using ADAM-API to access UERRA regional reanalysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/gridded_model_data_rolling_mean.html">
+   Rolling mean with CMIP6
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/masked_and_weighted_average.html">
+   Using masks and computing weighted average
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/nird-ESGF.html">
+   Using public data on NIRD using s3 and saving results in private s3 object storage
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/projections.html">
+   Using cartopy and projections for plotting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-AERONET.html">
+   Reading AERONET data with pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS.html">
+   Reading MODIS data with xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/read-MODIS-SUB-XYD-xarray.html">
+   Read MODIS Terra/Aqua netcdf as xarray
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_larger_files_to_forces_bucket.html">
+   Save files from bucket to bucket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/save_to_forces_bucket.html">
+   Save small local files to forces
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/search_and_load_with_esgf_opendap.html">
+   Search and Load CMIP6 Data via ESGF / OPeNDAP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/some-xarray-pandas-presentation_Sara.html">
+   Some tips with xarray and pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xarray2pandas.html">
+   From xarray to pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../examples/notebooks/xesmf_regridding.html">
+   Regridding model data with xESMF
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beyond the workshop
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/resources.html">
+   Join the community!
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/pythia.html">
+   Project Pythia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../afterword/envds-book.html">
+   Environmental Data Science Book
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/pangeo-data/clivar-2022/issues/new?title=Issue%20on%20page%20%2Fpangeo101/chunking_introduction.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/pangeo101/chunking_introduction.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data">
+     Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#global-lts">
+   Global LTS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-a-chunk">
+   What is a
+   <strong>
+    chunk
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-chunks-within-a-single-file">
+   Using chunks within a single file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#operations-on-a-chunked-dataset">
+   Operations on a chunked dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#so-why-chunks">
+   So, why chunks?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#chunks-and-files">
+     Chunks and files
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zarr-storage-format">
+   Zarr storage format
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#opening-multiple-netcdf-files-and-kerchunk">
+   Opening multiple NetCDF files and Kerchunk
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#exploiting-native-file-chunks-for-reading-datasets">
+     Exploiting native file chunks for reading datasets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extract-chunk-information">
+     Extract chunk information
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#combine-all-lts-files-into-one-kerchunked-single-ensemble-dataset">
+     Combine all LTS files into one kerchunked single ensemble dataset
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Data chunking</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#authors-contributors">
+   Authors &amp; Contributors
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#authors">
+     Authors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributors">
+     Contributors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#context">
+   Context
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data">
+     Data
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#packages">
+     Packages
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#global-lts">
+   Global LTS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-a-chunk">
+   What is a
+   <strong>
+    chunk
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-chunks-within-a-single-file">
+   Using chunks within a single file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#operations-on-a-chunked-dataset">
+   Operations on a chunked dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#so-why-chunks">
+   So, why chunks?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#chunks-and-files">
+     Chunks and files
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zarr-storage-format">
+   Zarr storage format
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#opening-multiple-netcdf-files-and-kerchunk">
+   Opening multiple NetCDF files and Kerchunk
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#exploiting-native-file-chunks-for-reading-datasets">
+     Exploiting native file chunks for reading datasets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extract-chunk-information">
+     Extract chunk information
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#combine-all-lts-files-into-one-kerchunked-single-ensemble-dataset">
+     Combine all LTS files into one kerchunked single ensemble dataset
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-citation">
+   Packages citation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="data-chunking">
+<h1>Data chunking<a class="headerlink" href="#data-chunking" title="Permalink to this headline">#</a></h1>
+<section id="authors-contributors">
+<h2>Authors &amp; Contributors<a class="headerlink" href="#authors-contributors" title="Permalink to this headline">#</a></h2>
+<section id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Tina Odaka, Ifremer (France), <a class="reference external" href="https://github.com/tinaok">&#64;tinaok</a></p></li>
+<li><p>Pier Lorenzo Marasco, Ispra (Italy), <a class="reference external" href="https://github.com/pl-marasco">&#64;pl-marasco</a></p></li>
+</ul>
+</section>
+<section id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>Anne Fouilloux, Simula Research Laboratory (Norway), <a class="reference external" href="https://github.com/annefou">&#64;annefou</a></p></li>
+<li><p>Guillaume Eynard-Bontemps, CNES (France), <a class="reference external" href="https://github.com/guillaumeeb">&#64;guillaumeeb</a></p></li>
+</ul>
+<div class="alert alert-info">
+<i class="fa-question-circle fa" style="font-size: 22px;color:#666;"></i> Overview
+    <br>
+    <br>
+    <b>Questions</b>
+    <ul>
+        <li>Why do chunking matter?</li>
+        <li>How can I read datasets by chunks to optimize memory usage?</li>
+    </ul>
+    <b>Objectives</b>
+    <ul>
+        <li>Learn about chunking</li>
+        <li>Learn about zarr </li>
+        <li>Use kerchunk to consolidate chunk metadata and prepare single ensemble datasets for parallel computing</li>
+    </ul>
+</div></section>
+</section>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Permalink to this headline">#</a></h2>
+<p>When dealing with large data files or collections, it’s often impossible to load all the data you want to analyze into a single computer’s RAM at once. This is a situation where the Pangeo ecosystem can help you a lot. Xarray offers the possibility to work lazily on data <strong>chunks</strong>, which means pieces of an entire dataset. By reading a dataset in <strong>chunks</strong> we can process our data piece by piece on a single computer and even on a distributed computing cluster using Dask (Cloud or HPC for instance).</p>
+<p>How we will process these ‘chunks’ in a parallel environment will be discussed in <a class="reference internal" href="dask_introduction.html"><span class="doc std std-doc">dask_introduction</span></a>. The concept of <strong>chunk</strong> will be explained here.</p>
+<p>When we process our data piece by piece, it’s easier to have our input or ouput data also saved in <strong>chunks</strong>. <a class="reference external" href="https://zarr.readthedocs.io/en/stable/">Zarr</a> is the reference library in the Pangeo ecosystem to save our Xarray multidimentional datasets in <strong>chunks</strong>.</p>
+<p><a class="reference external" href="https://zarr.readthedocs.io/en/stable/">Zarr</a> is not the only file format which uses <strong>chunk</strong>. We will also be using <a class="reference external" href="https://fsspec.github.io/kerchunk/">kerchunk library</a> in this notebook to build a virtual <strong>chunked</strong> dataset based on NetCDF files, and show how it optimizes the access and analysis of large datasets.</p>
+<p>The analysis is very similar to what we have done in previous episodes, however we will use data on a global coverage and not only on a small geographical area (e.g. Lombardia).</p>
+<section id="data">
+<h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">#</a></h3>
+<p>In this episode, we will be using Global Long Term Statistics (1999-2019) products provided by the <a class="reference external" href="https://land.copernicus.eu/global/index.html">Copernicus Global Land Service</a> and access them through <a class="reference external" href="https://en.wikipedia.org/wiki/Amazon_S3">S3-comptabile storage</a> (<a class="reference external" href="https://wiki.openstack.org/wiki/Swift">OpenStack Object Storage “Swift”</a>) with a data catalog we have created and made publicly available.</p>
+</section>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">#</a></h2>
+<p>This episode uses the following main Python packages:</p>
+<ul class="simple">
+<li><p>fsspec <span id="id1">[<a class="reference internal" href="#id26" title="fsspec Development Team. fsspec: Filesystem interfaces for Python. 2018. URL: https://github.com/fsspec/filesystem_spec/.">fsspecDTeam18</a>]</span></p></li>
+<li><p>s3fs <span id="id2">[<a class="reference internal" href="#id25" title="S3Fs Development Team. S3Fs. 2016. URL: https://github.com/fsspec/s3fs/.">S3FsDTeam16</a>]</span></p></li>
+<li><p>xarray <span id="id3">[<a class="reference internal" href="#id13" title="S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. Journal of Open Research Software, 2017. URL: https://doi.org/10.5334/jors.148, doi:10.5334/jors.148.">HH17</a>]</span> with <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">netCDF4</span></code></a> and <a class="reference external" href="https://pypi.org/project/h5netcdf/"><code class="docutils literal notranslate"><span class="pre">h5netcdf</span></code></a> engines</p></li>
+<li><p>dask <span id="id4">[<a class="reference internal" href="#id21" title="Dask Development Team. Dask: Library for dynamic task scheduling. 2016. URL: https://dask.org.">DaskDTeam16</a>]</span></p></li>
+<li><p>kerchunk <span id="id5">[<a class="reference internal" href="#id22" title="Kerchunk Development Team. kerchunk: Cloud-friendly access to archival data. 2021. URL: https://fsspec.github.io/kerchunk/.">KerchunkDTeam21</a>]</span></p></li>
+<li><p>geopandas <span id="id6">[<a class="reference internal" href="#id20" title="Kelsey Jordahl, Joris Van den Bossche, Martin Fleischmann, Jacob Wasserman, James McBride, Jeffrey Gerard, Jeff Tratner, Matthew Perry, Adrian Garcia Badaracco, Carson Farmer, Geir Arne Hjelle, Alan D. Snow, Micah Cochran, Sean Gillies, Lucas Culbertson, Matt Bartos, Nick Eubank, maxalbert, Aleksey Bilogur, Sergio Rey, Christopher Ren, Dani Arribas-Bel, Leah Wasser, Levi John Wolf, Martin Journois, Joshua Wilson, Adam Greenhall, Chris Holdgraf, Filipe, and François Leblanc. Geopandas/geopandas: v0.8.1. July 2020. URL: https://doi.org/10.5281/zenodo.3946761, doi:10.5281/zenodo.3946761.">JdBF+20</a>]</span></p></li>
+<li><p>matplotlib <span id="id7">[<a class="reference internal" href="#id17" title="J. D. Hunter. Matplotlib: a 2d graphics environment. Computing in Science &amp; Engineering, 9(3):90–95, 2007. doi:10.1109/MCSE.2007.55.">Hun07</a>]</span></p></li>
+</ul>
+<p>Please install these packages if not already available in your Python environment (see <a class="reference external" href="https://pangeo-data.github.io/foss4g-2022/before/setup.html">Setup page</a>).</p>
+<section id="packages">
+<h3>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h3>
+<p>In this episode, Python packages are imported when we start to use them. However, for best software practices, we recommend you to install and import all the necessary libraries at the top of your Jupyter notebook.</p>
+</section>
+</section>
+<section id="global-lts">
+<h2>Global LTS<a class="headerlink" href="#global-lts" title="Permalink to this headline">#</a></h2>
+<p>In the previous episode, we used Long Term statistics time-series for the region of Lombardy e.g. a very small area. Now we would like to use the original dataset that has a global coverage. Let us first open a single file (for January 1999-2019) to understand how much larger the global dataset is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fsspec</span>
+<span class="kn">import</span> <span class="nn">s3fs</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">s3fs</span><span class="o">.</span><span class="n">S3FileSystem</span><span class="p">(</span>
+    <span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">client_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;endpoint_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://object-store.cloud.muni.cz&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3path</span> <span class="o">=</span> <span class="s2">&quot;s3://foss4g-data/CGLS_LTS_1999_2019/c_gls_NDVI-LTS_1999-2019-1221_GLOBE_VGT-PROBAV_V3.0.1.nc&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As shown in the <a class="reference internal" href="data_discovery.html"><span class="doc std std-doc">Data discovery</span></a> chapter, when we have several files to read at once, we need to use Xarray <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code> instead of <code class="docutils literal notranslate"><span class="pre">open_dataset</span></code>. It takes a list in input, and not a single element. We can also use <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code> with one file as done below, just as an introduction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">LTS</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">([</span><span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">s3path</span><span class="p">)])</span>
+<span class="n">LTS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code> automatically switch from Numpy Arrays to Dask Arrays as the data structure used by Xarray.</p>
+<div class="alert alert-warning">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Go Further</b>
+    <br>
+    <ul>
+        <li>You can try to open the same file with xr.open_dataset(fs.open(s3path))</li> 
+        <li>Compare the xarray output between open_mfdataset and open_dataset, what do you see as difference?</li>
+            </ul>
+</div></section>
+<section id="what-is-a-chunk">
+<h2>What is a <strong>chunk</strong><a class="headerlink" href="#what-is-a-chunk" title="Permalink to this headline">#</a></h2>
+<p>If you look carefully to <code class="docutils literal notranslate"><span class="pre">LTS</span></code>, each Data Variable is a <code class="docutils literal notranslate"><span class="pre">dask.array</span></code> with a chunk size of <code class="docutils literal notranslate"><span class="pre">(15680,</span> <span class="pre">40320)</span></code>. So basically accessing one data variable would load arrays of dimensions <code class="docutils literal notranslate"><span class="pre">(15680,</span> <span class="pre">40320)</span></code> into the computer’s RAM. You can see this information and more details by clicking the icon as indicated in the image below.</p>
+<p><img alt="Dask.array" src="../_images/datasize.png" /></p>
+<p>When you open one or several netCDF files with <code class="docutils literal notranslate"><span class="pre">open_mdfataset</span></code>, by default, the chunks correspond to the entire size of the variable data array read from each file. When you need to analyze large files, a computer’s memory may not be sufficient anymore (see in this example, 2.36GiB for one chunk!).</p>
+<p>This is where understanding and using chunking correctly comes into play.</p>
+<p><strong>Chunking</strong> is splitting a dataset into small pieces.</p>
+<p>Original dataset is in one piece,<br />
+<img alt="Dask.array" src="../_images/notchunked.png" /></p>
+<p>and we split it into several smaller pieces.<br />
+<img alt="Dask.array" src="../_images/chunked.png" /></p>
+<p>We split it into pieces so that we can process our data block by block or <strong>chunk</strong> by <strong>chunk</strong>.</p>
+<p>In our case, for the moment, the dataset is composed of several files, so already several pieces (or just one in the example above), and Xarray just creates one chunk for each file.</p>
+</section>
+<section id="using-chunks-within-a-single-file">
+<h2>Using chunks within a single file<a class="headerlink" href="#using-chunks-within-a-single-file" title="Permalink to this headline">#</a></h2>
+<p>When we want to read one or several big files, or files with Big Arrays (the above 2.36GiB per array is already quite big), we will almost certainly need chunks so that we can process files piece by piece.</p>
+<p>This is usually done with Xarray using the <code class="docutils literal notranslate"><span class="pre">chunks</span></code> kwarg when opening a file with <code class="docutils literal notranslate"><span class="pre">xr.open_dataset</span></code> or with <code class="docutils literal notranslate"><span class="pre">xr.open_mfdataset</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LTS</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">s3path</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="mi">40320</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="mi">15680</span> <span class="o">/</span> <span class="mi">2</span><span class="p">})</span>
+<span class="n">LTS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you look into details of any variable in the representation above, you’ll see that each array is chunked into 4 pieces, 602.96 MiB each, which is already more manageable.</p>
+<div class="alert alert-warning">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Warning</b>
+    <br>
+    <br>
+    To access chunk with 602.96MiB each, your proces will first acces to 2GiB of data as the file is not originaly chunked.
+</div><p>Xarray <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> and <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> objects also have a <code class="docutils literal notranslate"><span class="pre">chunk</span></code> function. We can use it to change our dataset chunks size.
+Lets try to ‘chunk’ our data array LTS.nobs using this command.</p>
+<p>Let’s first re-open the same dataset without any chunking.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LTS</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">s3path</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we would like to play with small sized array, we first select a subset of data as you’ve learned in <a class="reference internal" href="xarray_introduction.html"><span class="doc std std-doc">xarray_introduction</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">LTS</span><span class="o">.</span><span class="n">nobs</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">),</span> <span class="n">lon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">70.0</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+<span class="n">test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The test value has dimensions <code class="docutils literal notranslate"><span class="pre">(1121,</span> <span class="pre">2240)</span></code>.  We will chunk it on 600x600 pieces using the following command.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see in the above graphics we got 8 <strong>chunks</strong>.  These 8 chunks are noted as (0,0) ..(0,3) (1,0),..(1,3) as you can see in the next visualisation.</p>
+</section>
+<section id="operations-on-a-chunked-dataset">
+<h2>Operations on a chunked dataset<a class="headerlink" href="#operations-on-a-chunked-dataset" title="Permalink to this headline">#</a></h2>
+<p>Let’s have a look of our chunked test dataset backend representation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"> <span class="pre">test.data</span></code> is the backend array Python representation of Xarray’s Data Array, <a class="reference external" href="https://docs.dask.org/en/stable/array.html"><strong>Dask Array</strong></a> when using chunking, Numpy by default.</p>
+<p>We will introduce Dask arrays and Dask graphs visualization in the next section <a class="reference internal" href="dask_introduction.html"><span class="doc std std-doc">dask_introduction</span></a>.</p>
+<p>Anyway, when applying <code class="docutils literal notranslate"><span class="pre">chunk</span></code> function you may have the impression that the chunks sizes just changes and everything will be fine.</p>
+<p>However, as you can see in the graph visualization above, Xarray will actually have to fetch at least one entire initial chunk that was defined when opening the Dataset at first before rechunking at a smaller size or even selecting one value. This is true when applying any funtions on any values: Xarray will work by loading entire chunks.</p>
+<p>You can imagine that it will not be very optimal if you load one file as an entire chunk, or if your initial chunks are too big (your Python Jupyter kernel may crash!), especially with large numbers of files and large files.</p>
+<p>You can find a really nice article by Dask team on how to chose the right chunk size <a class="reference external" href="https://blog.dask.org/2021/11/02/choosing-dask-chunk-sizes">here</a>.</p>
+<div class="alert alert-warning">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Go Further</b>
+    <br>
+    <br>
+    You can try to apply different ways for specifying chunk.
+    <ul>
+        <li> chunks = 'auto' -> Xarray relies on Dask to use an ideal size according to the preferred chunk sizes</li>
+        <li> chunks = -1 -> the entire array will be used as a single chunk
+        <li> chunks = "1MiB" -> Xarray seeks the size according to a specific memory target expressed in MiB</li>
+        <li> chunks = {'lat'=-1, 'lon'= 1000} -> chunks of entire _lat_ dimension, but splitted every 1000 values on _lon_ dimension</li>
+        <li> compare the resulting chunked data's shape, size, tasks, data.visualize..... What do you see?</li>
+    </ul>
+</div></section>
+<section id="so-why-chunks">
+<h2>So, why chunks?<a class="headerlink" href="#so-why-chunks" title="Permalink to this headline">#</a></h2>
+<p>In the end, chunks are mandatory for accessing files or dataset that are bigger than a singles computer’s memory. If all the data has to be accessed, it can be done sequentially e.g. chunks are processed one after the othe).</p>
+<p>Moreover, chunks allow for distributed processing and so increased speed for your data analysis, as seen in the next episode.</p>
+<section id="chunks-and-files">
+<h3>Chunks and files<a class="headerlink" href="#chunks-and-files" title="Permalink to this headline">#</a></h3>
+<p>Xarray chunking possibilities also relies on the underlying input or output file format used. Most modern file format allows to store a dataset or a single file using chunks. NetCDF4 uses chunks when storing a file on the disk through the use of HDF5. Any read of data in a NetCDF4 file will lead to the load of at least one chunk of this file. So when reading one of its chunk as defined in <code class="docutils literal notranslate"><span class="pre">open_dataset</span></code> call, Xarray will take advantage of native file chunking and won’t have to read the entire file too.</p>
+<p>Yet, it is really important to note that <strong>Xarray chunks and file chunks are not necessarily the same</strong>. It is however a really good idea to configure Xarray chunks so that they align well on input file format chunks (so ideally, Xarray chunks should contain one or several input file chunks).</p>
+</section>
+</section>
+<section id="zarr-storage-format">
+<h2>Zarr storage format<a class="headerlink" href="#zarr-storage-format" title="Permalink to this headline">#</a></h2>
+<p>This brings to our next subjects <a class="reference external" href="https://zarr.readthedocs.io/en/stable/">Zarr</a> and <a class="reference external" href="https://fsspec.github.io/kerchunk/">Kerchunk</a>.</p>
+<p>If we can have our original dataset already ‘chunked’ and accessed in an optimized way according to it’s actual byte storage on disk, we won’t need to load entire dataset every time, and our data anlayzis, even working on the entire dataset, will be greatly optimized.</p>
+<p>Let’s convert our input data into Zarr format so that we can learn what it is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="o">.</span><span class="n">to_dataset</span><span class="p">()</span><span class="o">.</span><span class="n">to_zarr</span><span class="p">(</span><span class="s2">&quot;test.zarr&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="alert alert-info">
+<i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Warning</b>
+<br>
+<ul>
+<li>DataArray can not be saved as 'zarr'. Before saving your data to zarr, you will need to convert it into a DataSet</li>
+</ul>
+</div><div class="alert alert-warning">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Exercise</b>
+    <br>
+    <ul>
+        <li>You can try to explore the zarr file you just created using `ls -la test.zarr` and  `ls -la test.zarr/nobs `</li>
+        <li>You can explore zarr metadata file by `cat test.zarr/.zmetadata` </li>
+        <li>Did you find the __chunks__ we defined previously in your zarr file? </li>
+    </ul>
+</div><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>du -sh test.zarr/
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls -al test.zarr/nobs
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat test.zarr/.zmetadata <span class="p">|</span> head -n <span class="m">30</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Zarr format main characteristics are the following:</p>
+<ul class="simple">
+<li><p>Every chunk of a Zarr dataset is stored as a single file (see x.y files in <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-al</span> <span class="pre">test.zarr/nobs</span></code>)</p></li>
+<li><p>Each Data array in a Zarr dataset has a two unique files containing metadata:</p>
+<ul>
+<li><p>.zattrs for dataset or dataarray general metadatas</p></li>
+<li><p>.zarray indicating how the dataarray is chunked, and where to find them on disk or other storage.</p></li>
+</ul>
+</li>
+</ul>
+<p>Zarr can be considered as an Analysis Ready, cloud optimized data (ARCO) file format, discussed in <a class="reference internal" href="data_discovery.html"><span class="doc std std-doc">data_discovery</span></a> section.</p>
+</section>
+<section id="opening-multiple-netcdf-files-and-kerchunk">
+<h2>Opening multiple NetCDF files and Kerchunk<a class="headerlink" href="#opening-multiple-netcdf-files-and-kerchunk" title="Permalink to this headline">#</a></h2>
+<p>As shown in the <a class="reference internal" href="data_discovery.html"><span class="doc std std-doc">Data discovery</span></a> chapter, when we have several files to read at once, we need to use Xarray <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code>. When using <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code> with NetCDF files, each NetCDF file is considerd as ‘one chunk’ by default as seen above.</p>
+<p>When calling <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code>, Xarray also needs to analyse each NetCDF file to get metadatas and tried to build a coherent dataset from them. Thus, it performs multiple operations, like concartenate the coordinate, checking compatibility, etc. This can be time consuming ,especially when dealing with object storage or you have more than thousands of files. And this has to be repeated every time, even if we use exactly the same set of input files for different analysis.</p>
+<p><a class="reference external" href="https://fsspec.github.io/kerchunk/">Kerchunk library</a> can build virtual Zarr Dataset over NetCDF files which enables efficient access to the data from traditional file systems or cloud object storage.</p>
+<p>And that is not the only optimisation kerchunk brings to pangeo ecosystem.</p>
+<section id="exploiting-native-file-chunks-for-reading-datasets">
+<h3>Exploiting native file chunks for reading datasets<a class="headerlink" href="#exploiting-native-file-chunks-for-reading-datasets" title="Permalink to this headline">#</a></h3>
+<p>As already mentioned, many data formats (for instance <a class="reference external" href="https://en.wikipedia.org/wiki/Hierarchical_Data_Format">HDF5</a>, <a class="reference external" href="https://unidata.github.io/netcdf4-python/">netCDF4</a> with HDF5 backend, <a class="reference external" href="https://en.wikipedia.org/wiki/GeoTIFF">geoTIFF</a>) have chunk capabilities. Chunks are defined at the creation of each file.  Let’s call them ‘<strong>native file chunks</strong>’ to distinguish that from ‘<strong>Dask chunks</strong>’. These native file chunks can be retrieved and used when opening and accessing the files. This will allow to significantly reduce the amount of IOs, bandwith, and memory usage when analyzing Data Variables.</p>
+<p><a class="reference external" href="https://fsspec.github.io/kerchunk/">kerchunk library</a> can extract native file chunk layout and metadata from each file and combine them into one virtual Zarr dataset.</p>
+</section>
+<section id="extract-chunk-information">
+<h3>Extract chunk information<a class="headerlink" href="#extract-chunk-information" title="Permalink to this headline">#</a></h3>
+<p>We extract native file chunk information from each NetCDF file using <code class="docutils literal notranslate"><span class="pre">kerchunk.hdf</span></code>.
+Let’s start with a single file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">kerchunk.hdf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use <code class="docutils literal notranslate"><span class="pre">kerchunk.hdf</span></code> because our files are written in <code class="docutils literal notranslate"><span class="pre">netCDF4</span></code>  format which is based on HDF5 and <code class="docutils literal notranslate"><span class="pre">SingleHdf5ToZarr</span></code> to translate the metadata of one HDF5 file into Zarr metadata format. The parameter <code class="docutils literal notranslate"><span class="pre">inline_threshold</span></code> is an <em>optimization</em> and tells <code class="docutils literal notranslate"><span class="pre">SingleHdf5ToZarr</span></code> to include chunks smaller than this value directly in the output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">remote_filename</span> <span class="o">=</span> <span class="s2">&quot;https://object-store.cloud.muni.cz/swift/v1/foss4g-data/CGLS_LTS_1999_2019/c_gls_NDVI-LTS_1999-2019-1221_GLOBE_VGT-PROBAV_V3.0.1.nc&quot;</span>
+<span class="k">with</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">remote_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">inf</span><span class="p">:</span>
+    <span class="n">h5chunks</span> <span class="o">=</span> <span class="n">kerchunk</span><span class="o">.</span><span class="n">hdf</span><span class="o">.</span><span class="n">SingleHdf5ToZarr</span><span class="p">(</span><span class="n">inf</span><span class="p">,</span> <span class="n">remote_filename</span><span class="p">,</span> <span class="n">inline_threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">chunk_info</span> <span class="o">=</span> <span class="n">h5chunks</span><span class="o">.</span><span class="n">translate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s have a look at <code class="docutils literal notranslate"><span class="pre">chunk_info</span></code>. It is a Python dictionary so we can use <code class="docutils literal notranslate"><span class="pre">pprint</span></code> to print it nicely.</p>
+<p>Content is a bit complicated, but it’s only metadata in Zarr format indicating what’s in the original file, and where the chunks of the file are located (bytes offset).</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="n">pprint</span><span class="p">(</span><span class="n">chunk_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="alert alert-warning">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Exercise</b>
+    <br>
+    <ul>
+        <li>Did you recognise the similarities with test.zarr's zarr metadata file? </li>
+    </ul>
+</div><p>After we have collected information on the native file chunks in the original data file and consolidated our Zarr metadata, we can open the files using <code class="docutils literal notranslate"><span class="pre">zarr</span></code> and pass this chunk information into a storage option. We also need to pass <code class="docutils literal notranslate"><span class="pre">&quot;consolidated&quot;:</span> <span class="pre">False</span></code> because the original dataset does not contain any <code class="docutils literal notranslate"><span class="pre">zarr</span></code> consolidating metadata.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LTS</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
+    <span class="s2">&quot;reference://&quot;</span><span class="p">,</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;zarr&quot;</span><span class="p">,</span>
+    <span class="n">backend_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;storage_options&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;fo&quot;</span><span class="p">:</span> <span class="n">chunk_info</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;consolidated&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">LTS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can notice above, all the Data Variables are already chunked according to the native file chunks of the NetCDF file.</p>
+</section>
+<section id="combine-all-lts-files-into-one-kerchunked-single-ensemble-dataset">
+<h3>Combine all LTS files into one kerchunked single ensemble dataset<a class="headerlink" href="#combine-all-lts-files-into-one-kerchunked-single-ensemble-dataset" title="Permalink to this headline">#</a></h3>
+<p>Now we will combine all the files into one kerchunked consolidated dataset, and try to open it as a xarray dataset.</p>
+<p>Let us first collect the chunk information for each file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="s2">&quot;foss4g-data/CGLS_LTS_1999_2019/&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We have 36 files to process, but for this chunking_introduction example, we’ll just use 6 file so that it take less time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">s3path</span> <span class="o">=</span> <span class="s2">&quot;s3://foss4g-data/CGLS_LTS_1999_2019/c_gls_NDVI-LTS_1999-2019-0[7-8]*.nc&quot;</span>
+<span class="n">chunk_info_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">time_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">fs</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">s3path</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://object-store.cloud.muni.cz/swift/v1/&quot;</span> <span class="o">+</span> <span class="n">file</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;1999-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="s2">&quot;%Y-%m</span><span class="si">%d</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">time_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;working on &quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">fsspec</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">as</span> <span class="n">inf</span><span class="p">:</span>
+        <span class="n">h5chunks</span> <span class="o">=</span> <span class="n">kerchunk</span><span class="o">.</span><span class="n">hdf</span><span class="o">.</span><span class="n">SingleHdf5ToZarr</span><span class="p">(</span><span class="n">inf</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">inline_threshold</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">chunk_info_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h5chunks</span><span class="o">.</span><span class="n">translate</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This time we use <code class="docutils literal notranslate"><span class="pre">MultiZarrToZarr</span></code> to combine multiple kerchunked datasets into a single logical aggregated dataset. Like when opening multiple files with Xarray <code class="docutils literal notranslate"><span class="pre">open_mfdataset</span></code>, we need to tell <code class="docutils literal notranslate"><span class="pre">MultiZarrToZarr</span></code> how to concatenate all the files. There is no time dimension in the original dataset, but one file corresponds to one date (average over the period 1999-2019 for a given 10-day period e.g. January 01, January 11, January 21, etc.).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">kerchunk.combine</span> <span class="kn">import</span> <span class="n">MultiZarrToZarr</span>
+
+<span class="n">mzz</span> <span class="o">=</span> <span class="n">MultiZarrToZarr</span><span class="p">(</span>
+    <span class="n">chunk_info_list</span><span class="p">,</span>
+    <span class="n">coo_map</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;INDEX&quot;</span><span class="p">:</span> <span class="s2">&quot;INDEX&quot;</span><span class="p">},</span>
+    <span class="n">identical_dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;crs&quot;</span><span class="p">],</span>
+    <span class="n">concat_dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;INDEX&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">mzz</span><span class="o">.</span><span class="n">translate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, we can open the complete dataset using our consolidated Zarr metadata.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">LTS</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
+    <span class="s2">&quot;reference://&quot;</span><span class="p">,</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;zarr&quot;</span><span class="p">,</span>
+    <span class="n">backend_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;storage_options&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;fo&quot;</span><span class="p">:</span> <span class="n">out</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;consolidated&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">LTS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can save the consolidated metadata for our dataset in a file, and reuse it later to access the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jsonfile</span> <span class="o">=</span> <span class="s2">&quot;test.json&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">jsonfile</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can then load data from this catalog.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">LTS</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
+    <span class="s2">&quot;reference://&quot;</span><span class="p">,</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;zarr&quot;</span><span class="p">,</span>
+    <span class="n">backend_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;storage_options&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;fo&quot;</span><span class="p">:</span> <span class="s2">&quot;./test.json&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;consolidated&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">LTS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The catalog (json file we created) can be shared on the cloud (or GitHub, etc.) and anyone can load it from there too.
+This approach allows anyone to easily access LTS data and select the Area of Interest for their own study.</p>
+<p>We have prepared json file based on 36 netcdf file, and published it online as catalogue=”<a class="reference external" href="https://object-store.cloud.muni.cz/swift/v1/foss4g-catalogue/c_gls_NDVI-LTS_1999-2019.json">https://object-store.cloud.muni.cz/swift/v1/foss4g-catalogue/c_gls_NDVI-LTS_1999-2019.json</a>”
+We can try to load it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalogue</span> <span class="o">=</span> <span class="s2">&quot;https://object-store.cloud.muni.cz/swift/v1/foss4g-catalogue/c_gls_NDVI-LTS_1999-2019.json&quot;</span>
+<span class="n">LTS</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
+    <span class="s2">&quot;reference://&quot;</span><span class="p">,</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;zarr&quot;</span><span class="p">,</span>
+    <span class="n">backend_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;storage_options&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;fo&quot;</span><span class="p">:</span> <span class="n">catalogue</span><span class="p">},</span> <span class="s2">&quot;consolidated&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">LTS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will use this catalogue in <a class="reference internal" href="dask_introduction.html"><span class="doc std std-doc">dask_introduction</span></a> chapter.</p>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h2>
+<p>Understanding chunking is key to optimize your data analysis when dealing with big datasets. In this episode we learned how to optimize the data access time and memory resources by exploiting native file chunks from netCDF4 data files and instructing Xarray to access data per chunk. However, computations on big datasets can be very slow on a single computer, and to optimize its time we may need to parallelize your computations. This is what you will learn in the next episode with Dask.</p>
+<div class="alert alert-success">
+    <i class="fa-check-circle fa" style="font-size: 22px;color:#666;"></i> <b>Key Points</b>
+    <br>
+    <ul>
+        <li>Chunking </li>
+        <li>zarr </li>
+        <li>kerchunk</li>
+    </ul>
+</div></section>
+<section id="packages-citation">
+<h2>Packages citation<a class="headerlink" href="#packages-citation" title="Permalink to this headline">#</a></h2>
+<div class="docutils container" id="id8">
+<dl class="citation">
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id3">HH17</a></span></dt>
+<dd><p>S. Hoyer and J. Hamman. Xarray: N-D labeled arrays and datasets in Python. <em>Journal of Open Research Software</em>, 2017. URL: <a class="reference external" href="https://doi.org/10.5334/jors.148">https://doi.org/10.5334/jors.148</a>, <a class="reference external" href="https://doi.org/10.5334/jors.148">doi:10.5334/jors.148</a>.</p>
+</dd>
+<dt class="label" id="id17"><span class="brackets"><a class="fn-backref" href="#id7">Hun07</a></span></dt>
+<dd><p>J. D. Hunter. Matplotlib: a 2d graphics environment. <em>Computing in Science &amp; Engineering</em>, 9(3):90–95, 2007. <a class="reference external" href="https://doi.org/10.1109/MCSE.2007.55">doi:10.1109/MCSE.2007.55</a>.</p>
+</dd>
+<dt class="label" id="id20"><span class="brackets"><a class="fn-backref" href="#id6">JdBF+20</a></span></dt>
+<dd><p>Kelsey Jordahl, Joris Van den Bossche, Martin Fleischmann, Jacob Wasserman, James McBride, Jeffrey Gerard, Jeff Tratner, Matthew Perry, Adrian Garcia Badaracco, Carson Farmer, Geir Arne Hjelle, Alan D. Snow, Micah Cochran, Sean Gillies, Lucas Culbertson, Matt Bartos, Nick Eubank, maxalbert, Aleksey Bilogur, Sergio Rey, Christopher Ren, Dani Arribas-Bel, Leah Wasser, Levi John Wolf, Martin Journois, Joshua Wilson, Adam Greenhall, Chris Holdgraf, Filipe, and François Leblanc. Geopandas/geopandas: v0.8.1. July 2020. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.3946761">https://doi.org/10.5281/zenodo.3946761</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.3946761">doi:10.5281/zenodo.3946761</a>.</p>
+</dd>
+<dt class="label" id="id21"><span class="brackets"><a class="fn-backref" href="#id4">DaskDTeam16</a></span></dt>
+<dd><p>Dask Development Team. <em>Dask: Library for dynamic task scheduling</em>. 2016. URL: <a class="reference external" href="https://dask.org">https://dask.org</a>.</p>
+</dd>
+<dt class="label" id="id26"><span class="brackets"><a class="fn-backref" href="#id1">fsspecDTeam18</a></span></dt>
+<dd><p>fsspec Development Team. <em>fsspec: Filesystem interfaces for Python</em>. 2018. URL: <a class="reference external" href="https://github.com/fsspec/filesystem_spec/">https://github.com/fsspec/filesystem_spec/</a>.</p>
+</dd>
+<dt class="label" id="id22"><span class="brackets"><a class="fn-backref" href="#id5">KerchunkDTeam21</a></span></dt>
+<dd><p>Kerchunk Development Team. <em>kerchunk: Cloud-friendly access to archival data</em>. 2021. URL: <a class="reference external" href="https://fsspec.github.io/kerchunk/">https://fsspec.github.io/kerchunk/</a>.</p>
+</dd>
+<dt class="label" id="id25"><span class="brackets"><a class="fn-backref" href="#id2">S3FsDTeam16</a></span></dt>
+<dd><p>S3Fs Development Team. <em>S3Fs</em>. 2016. URL: <a class="reference external" href="https://github.com/fsspec/s3fs/">https://github.com/fsspec/s3fs/</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./pangeo101"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="data_discovery.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Data access and discovery</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="dask_introduction.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Parallel computing with Dask</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Pangeo<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
