@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up conda and dependencies
-        uses: mamba-org/provision-with-micromamba@v13
+        uses: mamba-org/provision-with-micromamba@v14
         with:
           environment-file: .binder/environment.yml
           environment-name: clivar
