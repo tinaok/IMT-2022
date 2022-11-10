@@ -5,7 +5,7 @@ The CLIVAR 2022 Pangeo Workshop makes all of their materials publicly available 
 The process documents and data are made available under a CC-BY license.
 Software are made available under an MIT license.
 
-The  license text listed below (describing both CC-BY and MIT licenses as well as their usage in the CLIVAR 2022 Pangeo Bootcamp) is re-used under a CC-BY license from The Turing Way (see [LICENSE.md](https://github.com/alan-turing-institute/the-turing-way/edit/main/LICENSE.md)) and The Carpentries community materials (see the [Reproducible Science Curriculum](https://github.com/Reproducible-Science-Curriculum/sharing-RR-Jupyter/blob/gh-pages/LICENSE.md)).
+The license text listed below (describing both CC-BY and MIT licenses as well as their usage in the CLIVAR 2022 Pangeo Bootcamp) is re-used under a CC-BY license from The Turing Way (see [LICENSE.md](https://github.com/alan-turing-institute/the-turing-way/edit/main/LICENSE.md)) and The Carpentries community materials (see the [Reproducible Science Curriculum](https://github.com/Reproducible-Science-Curriculum/sharing-RR-Jupyter/blob/gh-pages/LICENSE.md)).
 
 ## Process documents and data
 
@@ -14,8 +14,8 @@ The following is a human-readable summary of (and not a substitute for) the [ful
 
 You are free:
 
-* to **Share**---copy and redistribute the material in any medium or format
-* to **Adapt**---remix, transform, and build upon the material
+- to **Share**---copy and redistribute the material in any medium or format
+- to **Adapt**---remix, transform, and build upon the material
 
 for any purpose, even commercially.
 
@@ -23,16 +23,16 @@ The licensor cannot revoke these freedoms as long as you follow the license term
 
 Under the following terms:
 
-* **Attribution**---You must give appropriate credit (mentioning that your work is derived from work that is Copyright (c) 2022 Pangeo and, where practical, linking to https://github.com/pangeo-data/clivar-2022), provide a [link to the license][cc-by-human], and indicate if changes were made.
+- **Attribution**---You must give appropriate credit (mentioning that your work is derived from work that is Copyright (c) 2022 Pangeo and, where practical, linking to https://github.com/pangeo-data/clivar-2022), provide a [link to the license][cc-by-human], and indicate if changes were made.
   You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-* **No additional restrictions**---You may not apply legal terms or technological measures that legally restrict others from doing
-anything the license permits.
+- **No additional restrictions**---You may not apply legal terms or technological measures that legally restrict others from doing
+  anything the license permits.
 
 With the understanding that:
 
-* You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an
+- You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an
   applicable exception or limitation.
-* No warranties are given. The license may not give you all of the permissions necessary for your intended use.
+- No warranties are given. The license may not give you all of the permissions necessary for your intended use.
   For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
 
 ## Software

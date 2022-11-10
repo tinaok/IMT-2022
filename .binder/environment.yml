@@ -33,7 +33,7 @@ dependencies:
   - nc-time-axis
   - pip
   - pip:
-    - wget
-    - sphinx-exercise
-    - jupytext
-    - nbgitpuller
+      - wget
+      - sphinx-exercise
+      - jupytext
+      - nbgitpuller
