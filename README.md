@@ -1,6 +1,9 @@
-# Pangeo 101 Tutorial for CLIVAR CMIP6 Bootcamp 2022 
+# Pangeo 101 Tutorial for CLIVAR CMIP6 Bootcamp 2022
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This repository contains the documentation and jupyter notebooks used for delivering the tutorial on Pangeo during the [CLIVAR CMIP6 Bootcamp 2022](https://www.clivar.org/events/arctic-processes-cmip6-bootcamp).
@@ -12,7 +15,7 @@ This repository contains the documentation and jupyter notebooks used for delive
 
 The content of this repository (folder `tutorial`) is rendered as an online document using [Jupyter Book](https://jupyterbook.org/en/stable/intro.html). **You can access it [here](https://pangeo-data.github.io/clivar-2022)**.
 
-## CLIVAR CMIP6 Bootcamp 
+## CLIVAR CMIP6 Bootcamp
 
 The Arctic Processes in CMIP6 bootcamp is taking place from 11 to 21 October 2022 at Søminestationen (Denmark). It is organized by CLIVAR [CLIVAR/CliC Northern Oceans Region Panel](https://www.clivar.org/clivar-panels/northern).
 
