@@ -464,16 +464,6 @@ title="Print to PDF"
    Running the tutorial on the European Open Science Cloud (EOSC)
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-on-your-own-computer">
-   Running on your own computer
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-using-a-binderhub-deployment">
-   Running using a Binderhub deployment
-  </a>
- </li>
 </ul>
 
     </nav>
@@ -496,16 +486,6 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#running-the-tutorial-on-the-european-open-science-cloud-eosc">
    Running the tutorial on the European Open Science Cloud (EOSC)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-on-your-own-computer">
-   Running on your own computer
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-using-a-binderhub-deployment">
-   Running using a Binderhub deployment
   </a>
  </li>
 </ul>
@@ -532,74 +512,75 @@ For more details on this deployment, you may want to take a look at <a class="re
 </ul>
 <section id="running-the-tutorial-on-the-european-open-science-cloud-eosc">
 <h2>Running the tutorial on the European Open Science Cloud (EOSC)<a class="headerlink" href="#running-the-tutorial-on-the-european-open-science-cloud-eosc" title="Permalink to this headline">#</a></h2>
-<p>First, before the CLIVAR CMIP6 Bootcamp, all the participants will have to create an EGI account and enroll to the Virtual Organisations to have access to EOSC Pangeo JupyterHub and EOSC Pangeo storage.</p>
+<p>First, before the course on 14th December 2022, all the studnets will have to create an EGI account and enroll to the Virtual Organisations to have access to EOSC Pangeo JupyterHub and EOSC Pangeo storage.</p>
 <p>There are several steps to follow:
-First two steps use EGI development instance to activate your access to pangeo-eosc jupyter hub. Last two steps are there to activate access to pangeo-eosc object storage.</p>
+First two steps use EGI development instance to activate your access to pangeo-eosc jupyter hub.</p>
 <ol class="simple">
 <li><p>sign up for an EGI account (<strong>Development egi instance:aai-dev</strong> ) by clicking on : <a class="reference external" href="https://aai-dev.egi.eu/registry/co_petitions/start/coef:2">https://aai-dev.egi.eu/registry/co_petitions/start/coef:2</a>. Use your <a class="reference external" href="https://orcid.org/">ORCID</a> account to authenticate or social media account e.g. <a class="reference external" href="https://github.com/">GitHub</a>.</p></li>
 <li><p><strong>Enroll in the development instance</strong> in the “<a class="reference external" href="http://vo.pangeo.eu">vo.pangeo.eu</a>” Virtual Organisation by clicking on: <a class="reference external" href="https://aai-dev.egi.eu/registry/co_petitions/start/coef:290">https://aai-dev.egi.eu/registry/co_petitions/start/coef:290</a>.
-This will take you to the website shown on the Figure <img alt="EGI account" src="../_images/EGI-VO.png" /> and then to <img alt="EGI join VO notebook" src="../_images/EGI-join-VO.png" />. For the latter e.g. when asking to join the EGI VO pangeo, in the “statement for purpose” simply write “<strong>To execute Jupyter notebooks during CLIVAR CMIP6 Bootcamp as student (or mentor)</strong>”. Review and agree on the policy and click on “Submit”.</p></li>
-<li><p>sign up for an EGI account (<strong>Production EGI instance:aai</strong>) by clicking on : <a class="reference external" href="https://aai.egi.eu/registry/co_petitions/start/coef:2">https://aai.egi.eu/registry/co_petitions/start/coef:2</a>. Use your <a class="reference external" href="https://orcid.org/">ORCID</a> account to authenticate or social media account e.g. <a class="reference external" href="https://github.com/">GitHub</a>.</p></li>
-<li><p>Enroll to the <strong><a class="reference external" href="http://vo.pangeo.egi.eu">vo.pangeo.egi.eu</a></strong> VO by clicking on <a class="reference external" href="https://aai.egi.eu/registry/co_petitions/start/coef:111">https://aai.egi.eu/registry/co_petitions/start/coef:386</a>. This will take you to the website shown on the Figure <img alt="EGI account" src="../_images/EGI-VO.png" /> and then to <img alt="EGI join VO notebook" src="../_images/EGI-join-VO.png" />. For the latter e.g. when asking to join the EGI VO notebook, in the “statement for purpose” simply write “<strong>To execute Jupyter notebooks during CLIVAR CMIP6 Bootcamp as student (or mentor)</strong>”. Review and agree on the policy and click on “Submit”.</p></li>
+This will take you to the website shown on the Figure <img alt="EGI account" src="../_images/EGI-VO.png" /> and then to <img alt="EGI join VO notebook" src="../_images/EGI-join-VO.png" />. For the latter e.g. when asking to join the EGI VO pangeo, in the “statement for purpose” simply write “<strong>To execute Jupyter notebooks during IMT distributing computing course as student</strong>”. Review and agree on the policy and click on “Submit”.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It is <strong>important</strong> to perform all these steps <strong>as early as possible</strong> in order for managers of the Virtual Organisations to approve your petitions to join.</p>
+<p>It is <strong>important</strong> to perform all these steps <strong>as early as possible</strong> in order to approve your petitions to join.</p>
 </div>
-<p>Once your enrollments have been validated, you may need to log out from EGI Check-in to refresh your account. If you have any trouble, request help by <a class="reference external" href="https://github.com/pangeo-data/clivar-2022/issues/new">filling an issue</a> before the bootcamp. Someone will assist you with the setup.</p>
-<p>To access the Pangeo EOSC JupyterHub, you need to click on <a class="reference external" href="https://pangeo-clivar.vm.fedcloud.eu/jupyterhub/hub/user-redirect/git-pull?repo=https%3A//github.com/pangeo-data/clivar-2022&amp;urlpath=lab/tree/clivar-2022/tutorial/pangeo101/&amp;branch=main">this link</a> to open a Jupyterlab on the correct folder for the tutorial.</p>
-<p>Under the hood, this will clone the <a class="reference external" href="https://github.com/pangeo-data/clivar-2022">https://github.com/pangeo-data/clivar-2022</a> repository and put you in the correct folder for executing our tutorial.</p>
-<p>From there, you can open and execute any notebooks used during the workshop, enjoy!</p>
-<p>Alternatively, you can also open notebooks one by one from the PANGEO 101 section of this Jupyterbook by clicking on the rocket icon 🚀 on top of the notebook and choosing Jupyterhub option.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>After the CLIVAR CMIP6 Bootcamp, you can continue to use the resources, but note that we would probably modify the service and things might not work from time to time.
-We would appreciate you get in touch with us to give us some feedback and be informed of the platform evolution. You can do this through <a class="reference external" href="https://github.com/pangeo-data/clivar-2022/discussions">Github Discussions</a>.</p>
-<p>You can also contribute to “the Pangeo show and tell” online meetups.</p>
-</div>
-</section>
-<section id="running-on-your-own-computer">
-<h2>Running on your own computer<a class="headerlink" href="#running-on-your-own-computer" title="Permalink to this headline">#</a></h2>
-<p>Most parts of this tutorial were designed to run with limited computer resources, so it is possible to run on your laptop.
-It is a bit more complicated as you will have to install the software environment yourself. Also you will not be able to test real cloud distributed processing with Dask gateway.</p>
-<p>Steps to run this tutorial on your own computer are listed below and demonstrated <em>through Linux commands only</em>:</p>
-<ol class="simple">
-<li><p>git clone the clivar-2022 repository.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/pangeo-data/clivar-2022.git
-</pre></div>
-</div>
-<ol class="simple">
-<li><p>Install the required software environment with Conda. If you do not have Conda, install it by following these instructions (see <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">here</a>). Then create the environment, this can take a few minutes.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda env create -n pangeo-clivar -f clivar-2022/.binder/environment.yml
-</pre></div>
-</div>
-<ol class="simple">
-<li><p>Launch a Jupyterlab notebook server from this environment.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda activate pangeo-clivar
+<p>Once your enrollments have been validated, you may need to log out from EGI Check-in to refresh your account. If you have any trouble, request help by <a class="reference external" href="https://github.com/tinaok/IMT-2022/issues/new">filling an issue</a> before the bootcamp. Someone will assist you with the setup.</p>
+<p>To access the Pangeo EOSC JupyterHub, you need to click on <a class="reference external" href="https://pangeo-clivar.vm.fedcloud.eu/jupyterhub/hub/user-redirect/git-pull?repo=https%3A//github.com/tinaok/IMT-2022&amp;urlpath=lab/tree/tinaok/tutorial/pangeo101/&amp;branch=main">this link</a> to open a Jupyterlab on the correct folder for the tutorial.</p>
+<p>Under the hood, this will clone the <a class="reference external" href="https://github.com/tinaok/IMT-2022">https://github.com/tinaok/IMT-2022</a> repository and put you in the correct folder for executing our tutorial.</p>
+<p>From there, you can open and execute any notebooks used during the lesson, enjoy!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+## Running on your own computer
+
+Most parts of this tutorial were designed to run with limited computer resources, so it is possible to run on your laptop.
+It is a bit more complicated as you will have to install the software environment yourself. Also you will not be able to test real cloud distributed processing with Dask gateway.
+
+Steps to run this tutorial on your own computer are listed below and demonstrated _through Linux commands only_:
+
+1. git clone the IMT-2022 repository.
+
+```bash
+git clone https://github.com/tinaok/IMT-2022.git
+```
+
+2. Install the required software environment with Conda. If you do not have Conda, install it by following these instructions (see [here](https://docs.conda.io/en/latest/miniconda.html)). Then create the environment, this can take a few minutes.
+
+```bash
+conda env create -n pangeo-IMT -f IMT-2022/.binder/environment.yml
+```
+
+3. Launch a Jupyterlab notebook server from this environment.
+
+```bash
+conda activate pangeo-clivar
 jupyter lab
+```
+
+4. Open a web browser and connect to the Jupyterlab provided URL (you should see it in the jupyter lab command outputs), something like: http://localhost:8888/lab?token=42fac6733c6854578b981bca3abf5152.
+5. Navigate to IMT-2022/tutorial/pangeo101/ using the file browser on the left side of the Jupyterlab screen.
+
+## Running using a Binderhub deployment
+
+[Binderhub](https://binderhub.readthedocs.io/en/latest/) is a cloud service that allows users to share reproducible interactive computing environments from code repositories. It is generally used to enable other users to easily run your own code through Jupyter notebooks.
+It is a really cool service offered for free by several organisations (MyBinder through Jupyter, GESIS, etc.).
+
+It is probably the easiest way to execute notebooks in this repository, as you only have to do one click to arrive in a Jupyterlab with all the necessary libraries.
+However, the hardware resources of the public BinderHub are quite small, so you will not be able to grasp the full potential of the Pangeo software stack, and parts of the notebooks will be unavailable.
+
+All the notebooks on the PANGEO 101 section, for example [&quot;Handling multi-dimensional arrays with xarray&quot;](../pangeo101/xarray_introduction.ipynb) have a rocket icon 🚀 at the top, from which you can select the Binder button to just run this notebook on the [GESIS Binder service](https://notebooks.gesis.org/binder/).
+
+Alternatively, you can also directly click on the below buttons:
+
+GESIS:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://notebooks.gesis.org/binder/v2/gh/tinaok/IMT-2022/HEAD)
+
+MyBinder:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tinaok/IMT-2022/HEAD)
+
+You will then have to navigate to the IMT-2022/tutorial/pangeo101/ folder using the file browser on the left side of the Jupyterlab screen.
 </pre></div>
 </div>
-<ol class="simple">
-<li><p>Open a web browser and connect to the Jupyterlab provided URL (you should see it in the jupyter lab command outputs), something like: <a class="reference external" href="http://localhost:8888/lab?token=42fac6733c6854578b981bca3abf5152">http://localhost:8888/lab?token=42fac6733c6854578b981bca3abf5152</a>.</p></li>
-<li><p>Navigate to clivar-2022/tutorial/pangeo101/ using the file browser on the left side of the Jupyterlab screen.</p></li>
-</ol>
-</section>
-<section id="running-using-a-binderhub-deployment">
-<h2>Running using a Binderhub deployment<a class="headerlink" href="#running-using-a-binderhub-deployment" title="Permalink to this headline">#</a></h2>
-<p><a class="reference external" href="https://binderhub.readthedocs.io/en/latest/">Binderhub</a> is a cloud service that allows users to share reproducible interactive computing environments from code repositories. It is generally used to enable other users to easily run your own code through Jupyter notebooks.
-It is a really cool service offered for free by several organisations (MyBinder through Jupyter, GESIS, etc.).</p>
-<p>It is probably the easiest way to execute notebooks in this repository, as you only have to do one click to arrive in a Jupyterlab with all the necessary libraries.
-However, the hardware resources of the public BinderHub are quite small, so you will not be able to grasp the full potential of the Pangeo software stack, and parts of the notebooks will be unavailable.</p>
-<p>All the notebooks on the PANGEO 101 section, for example <a class="reference internal" href="../pangeo101/xarray_introduction.html"><span class="doc std std-doc">“Handling multi-dimensional arrays with xarray”</span></a> have a rocket icon 🚀 at the top, from which you can select the Binder button to just run this notebook on the <a class="reference external" href="https://notebooks.gesis.org/binder/">GESIS Binder service</a>.</p>
-<p>Alternatively, you can also directly click on the below buttons:</p>
-<p>GESIS:</p>
-<p><a class="reference external" href="https://notebooks.gesis.org/binder/v2/gh/pangeo-data/clivar-2022/HEAD"><img alt="Binder" src="https://mybinder.org/badge_logo.svg" /></a></p>
-<p>MyBinder:</p>
-<p><a class="reference external" href="https://mybinder.org/v2/gh/pangeo-data/clivar-2022/HEAD"><img alt="Binder" src="https://mybinder.org/badge_logo.svg" /></a></p>
-<p>You will then have to navigate to the clivar-2022/tutorial/pangeo101/ folder using the file browser on the left side of the Jupyterlab screen.</p>
 </section>
 </section>
 
