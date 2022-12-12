@@ -16,13 +16,11 @@ This page will describe two ways of running the tutorial:
 First, before the course on 14th December 2022, all the studnets will have to create an EGI account and enroll to the Virtual Organisations to have access to EOSC Pangeo JupyterHub and EOSC Pangeo storage.
 
 There are several steps to follow:
-First two steps use EGI development instance to activate your access to pangeo-eosc jupyter hub. 
+First two steps use EGI development instance to activate your access to pangeo-eosc jupyter hub.
 
 1. sign up for an EGI account (**Development egi instance:aai-dev** ) by clicking on : [https://aai-dev.egi.eu/registry/co_petitions/start/coef:2](https://aai-dev.egi.eu/registry/co_petitions/start/coef:2). Use your [ORCID](https://orcid.org/) account to authenticate or social media account e.g. [GitHub](https://github.com/).
 2. **Enroll in the development instance** in the “vo.pangeo.eu” Virtual Organisation by clicking on: [https://aai-dev.egi.eu/registry/co_petitions/start/coef:290](https://aai-dev.egi.eu/registry/co_petitions/start/coef:290).
    This will take you to the website shown on the Figure ![EGI account](../figures/EGI-VO.png) and then to ![EGI join VO notebook](../figures/EGI-join-VO.png). For the latter e.g. when asking to join the EGI VO pangeo, in the "statement for purpose" simply write “**To execute Jupyter notebooks during IMT distributing computing course as student**”. Review and agree on the policy and click on “Submit”.
-
-
 
 :::{note}
 It is **important** to perform all these steps **as early as possible** in order to approve your petitions to join.
@@ -35,7 +33,6 @@ To access the Pangeo EOSC JupyterHub, you need to click on [this link](https://p
 Under the hood, this will clone the https://github.com/tinaok/IMT-2022 repository and put you in the correct folder for executing our tutorial.
 
 From there, you can open and execute any notebooks used during the lesson, enjoy!
-
 
 :::
 
