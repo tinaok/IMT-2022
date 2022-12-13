@@ -28,7 +28,7 @@ It is **important** to perform all these steps **as early as possible** in order
 
 Once your enrollments have been validated, you may need to log out from EGI Check-in to refresh your account. If you have any trouble, request help by [filling an issue](https://github.com/tinaok/IMT-2022/issues/new) before the bootcamp. Someone will assist you with the setup.
 
-To access the Pangeo EOSC JupyterHub, you need to click on [this link](https://pangeo-clivar.vm.fedcloud.eu/jupyterhub/hub/user-redirect/git-pull?repo=https%3A//github.com/tinaok/IMT-2022&urlpath=lab/tree/tinaok/tutorial/pangeo101/&branch=main) to open a Jupyterlab on the correct folder for the tutorial.
+To access the Pangeo EOSC JupyterHub, you need to click on [this link](https://pangeo-clivar.vm.fedcloud.eu/jupyterhub/hub/user-redirect/git-pull?repo=https%3A//github.com/tinaok/IMT-2022&urlpath=lab/tree/IMT-2022/tutorial/pangeo101/&branch=main) to open a Jupyterlab on the correct folder for the tutorial.
 
 Under the hood, this will clone the https://github.com/tinaok/IMT-2022 repository and put you in the correct folder for executing our tutorial.
 
