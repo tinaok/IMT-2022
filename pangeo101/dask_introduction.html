@@ -337,6 +337,53 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://notebooks.gesis.org/binder/v2/gh/tinaok/IMT-2022/main?urlpath=lab/tree/tutorial/pangeo101/dask_introduction.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://pangeo-clivar.vm.fedcloud.eu/hub/user-redirect/git-pull?repo=https%3A//github.com/tinaok/IMT-2022&urlpath=lab/tree/IMT-2022/tutorial/pangeo101/dask_introduction.ipynb&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -887,7 +934,7 @@ Chunks of a Dask Array are well-known Numpy arrays. By transforming our big data
 <section id="how-does-xarray-with-dask-distribute-data-analysis">
 <h4>How does Xarray with Dask distribute data analysis?<a class="headerlink" href="#how-does-xarray-with-dask-distribute-data-analysis" title="Permalink to this headline">#</a></h4>
 <p>When we use chunks with <code class="docutils literal notranslate"><span class="pre">Xarray</span></code>, the real computation is only done when needed or asked for, usually when invoking <code class="docutils literal notranslate"><span class="pre">compute()</span></code> function. Dask generates a <strong>task graph</strong> describing the computations to be done. When using <a class="reference external" href="https://distributed.dask.org/en/stable/">Dask Distributed</a> a <strong>Scheduler</strong> distributes these tasks across several <strong>Workers</strong>.</p>
-<p><img alt="Xarray with dask" src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/dask-xarray-explained.png" /></p>
+<p><img alt="Xarray with dask" src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/dask-xarray-explained.png?raw=true" /></p>
 <p>#### What is a Dask Distributed ?</p>
 <p>A Dask Distributed is made of two main components:</p>
 <ul class="simple">
@@ -940,11 +987,11 @@ Chunks of a Dask Array are well-known Numpy arrays. By transforming our big data
 We will learn here, how to use that through <a class="reference external" href="https://github.com/dask/dask-labextension">dask jupyterlab extension</a>.</p>
 <p>To use Dask Dashbord through jupyterlab extension at Pangeo EOSC FOSS4G infrastructure,
 you will just need too look at the html link you have for your jupyterlab, and Dask dashboard port number, as highlighted in the figure below.</p>
-<img src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/dashboardlink.png" width="50%">
-<img src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/dasklab.png" width="30%">
+<img src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/dashboardlink.png?raw=true" width="50%">
+<img src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/dasklab.png?raw=true" width="30%">
 <p>Then click the orange icon indicated in the above figure, and type ‘your’ dashboard link (normally, you just need to replace ‘todaka’ to ‘your username’).</p>
 <p>You can click several buttons indicated with blue arrows in above figures, then drag and drop to place them as your convenience.</p>
-<img src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/exampledasklab.png" width="50%">
+<img src="https://github.com/tinaok/IMT-2022/blob/main/tutorial/figures/exampledasklab.png?raw=true" width="50%">
 <p>It’s really helpfull to understand your computation and how it is distributed.</p>
 </section>
 </section>
@@ -1321,16 +1368,16 @@ This time, copy and past the link above indicated in Dashboard to the dasklab ex
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "conda-env-notebook-py"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "conda-env-notebook-py",
             path: "./pangeo101"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'conda-env-notebook-py'</script>
 
               </div>
               
