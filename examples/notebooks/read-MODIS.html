@@ -52,6 +52,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Read MODIS Terra/Aqua netcdf as xarray" href="read-MODIS-SUB-XYD-xarray.html" />
@@ -576,6 +578,72 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="s2">&quot;ESGF/obs4MIPs/MODIS/MODIS6.1terra&quot;</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ClientError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/s3fs/core.py:698,</span> in <span class="ni">S3FileSystem._lsdir</span><span class="nt">(self, path, refresh, max_items, delimiter, prefix, versions)</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span> <span class="n">dircache</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">698</span> <span class="k">async</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span>     <span class="n">dircache</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;CommonPrefixes&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/aiobotocore/paginate.py:30,</span> in <span class="ni">AioPageIterator.__anext__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">30</span>     <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_request</span><span class="p">(</span><span class="n">current_kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span>     <span class="n">parsed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_parsed_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/aiobotocore/client.py:358,</span> in <span class="ni">AioBaseClient._make_api_call</span><span class="nt">(self, operation_name, api_params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">357</span>     <span class="n">error_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">from_code</span><span class="p">(</span><span class="n">error_code</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">358</span>     <span class="k">raise</span> <span class="n">error_class</span><span class="p">(</span><span class="n">parsed_response</span><span class="p">,</span> <span class="n">operation_name</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">359</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="ne">ClientError</span>: An error occurred (503) when calling the ListObjectsV2 operation (reached max retries: 4): Service Unavailable
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">OSError</span><span class="g g-Whitespace">                                   </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">fs</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="s2">&quot;ESGF/obs4MIPs/MODIS/MODIS6.1terra&quot;</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/fsspec/asyn.py:113,</span> in <span class="ni">sync_wrapper.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span> <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span> <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="bp">self</span> <span class="o">=</span> <span class="n">obj</span> <span class="ow">or</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">113</span>     <span class="k">return</span> <span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/fsspec/asyn.py:98,</span> in <span class="ni">sync</span><span class="nt">(loop, func, timeout, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="k">raise</span> <span class="n">FSTimeoutError</span> <span class="kn">from</span> <span class="nn">return_result</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_result</span><span class="p">,</span> <span class="ne">BaseException</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">98</span>     <span class="k">raise</span> <span class="n">return_result</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>     <span class="k">return</span> <span class="n">return_result</span>
+
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/fsspec/asyn.py:53,</span> in <span class="ni">_runner</span><span class="nt">(event, coro, result, timeout)</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">coro</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">coro</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">53</span>     <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="n">coro</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span>     <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ex</span>
+
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/s3fs/core.py:919,</span> in <span class="ni">S3FileSystem._ls</span><span class="nt">(self, path, detail, refresh, versions)</span>
+<span class="g g-Whitespace">    </span><span class="mi">917</span>     <span class="n">files</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lsbuckets</span><span class="p">(</span><span class="n">refresh</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">918</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">919</span>     <span class="n">files</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lsdir</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">refresh</span><span class="p">,</span> <span class="n">versions</span><span class="o">=</span><span class="n">versions</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">920</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span> <span class="ow">and</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">921</span>         <span class="n">files</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lsdir</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">922</span>             <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">refresh</span><span class="o">=</span><span class="n">refresh</span><span class="p">,</span> <span class="n">versions</span><span class="o">=</span><span class="n">versions</span>
+<span class="g g-Whitespace">    </span><span class="mi">923</span>         <span class="p">)</span>
+
+<span class="nn">File ~/micromamba-root/envs/clivar/lib/python3.10/site-packages/s3fs/core.py:725,</span> in <span class="ni">S3FileSystem._lsdir</span><span class="nt">(self, path, refresh, max_items, delimiter, prefix, versions)</span>
+<span class="g g-Whitespace">    </span><span class="mi">723</span>             <span class="n">f</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;?versionId=</span><span class="si">{</span><span class="n">version_id</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">724</span> <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">725</span>     <span class="k">raise</span> <span class="n">translate_boto_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">727</span> <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">and</span> <span class="n">files</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">versions</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">728</span>     <span class="bp">self</span><span class="o">.</span><span class="n">dircache</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">files</span>
+
+<span class="ne">OSError</span>: [Errno 16] Service Unavailable
 </pre></div>
 </div>
 </div>
